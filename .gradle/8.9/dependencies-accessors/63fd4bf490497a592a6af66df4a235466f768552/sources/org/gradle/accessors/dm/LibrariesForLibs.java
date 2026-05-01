@@ -41,7 +41,7 @@ public class LibrariesForLibs extends AbstractExternalDependencyFactory {
     }
 
     /**
-     * Dependency provider for <b>biometric</b> with <b>androidx.biometric:biometric</b> coordinates and
+     * Dependency provider for <b>biometric</b> with <b>androidx.biometric:biometric-ktx</b> coordinates and
      * with version reference <b>biometry</b>
      * <p>
      * This dependency was declared in catalog libs.versions.toml
@@ -787,7 +787,7 @@ public class LibrariesForLibs extends AbstractExternalDependencyFactory {
         public VersionAccessors(ProviderFactory providers, DefaultVersionCatalog config) { super(providers, config); }
 
         /**
-         * Version alias <b>agp</b> with value <b>8.5.2</b>
+         * Version alias <b>agp</b> with value <b>8.7.3</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.
@@ -807,7 +807,7 @@ public class LibrariesForLibs extends AbstractExternalDependencyFactory {
         public Provider<String> getAssertK() { return getVersion("assertK"); }
 
         /**
-         * Version alias <b>biometry</b> with value <b>1.1.0</b>
+         * Version alias <b>biometry</b> with value <b>1.4.0-alpha02</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.
@@ -965,7 +965,7 @@ public class LibrariesForLibs extends AbstractExternalDependencyFactory {
         public AndroidVersionAccessors(ProviderFactory providers, DefaultVersionCatalog config) { super(providers, config); }
 
         /**
-         * Version alias <b>android.compileSdk</b> with value <b>34</b>
+         * Version alias <b>android.compileSdk</b> with value <b>35</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.
@@ -985,7 +985,7 @@ public class LibrariesForLibs extends AbstractExternalDependencyFactory {
         public Provider<String> getMinSdk() { return getVersion("android.minSdk"); }
 
         /**
-         * Version alias <b>android.targetSdk</b> with value <b>34</b>
+         * Version alias <b>android.targetSdk</b> with value <b>35</b>
          * <p>
          * If the version is a rich version and cannot be represented as a
          * single version string, an empty string is returned.

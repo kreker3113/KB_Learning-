@@ -65,8 +65,4 @@ val sharedModule = module {
     singleOf(::GetCoinDetailsUseCase)
     singleOf(::GetCoinPriceHistoryUseCase)
 
-    // portfolio
-    single {
-        getPortfolioDatabase(get<RoomDatabase.Builder<PortfolioDatabase>>())
-    }
 }

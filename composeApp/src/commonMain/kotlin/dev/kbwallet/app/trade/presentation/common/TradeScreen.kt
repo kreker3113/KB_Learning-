@@ -40,7 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import dev.kbwallet.app.theme.LocalKBWalletColorsPalette
+import dev.kbwallet.app.theme.LocalKBLearningColorsPalette
 import dev.kbwallet.app.trade.presentation.common.component.rememberCurrencyVisualTransformation
 import org.jetbrains.compose.resources.stringResource
 
@@ -109,7 +109,7 @@ fun TradeScreen(
                 Text(
                     text = stringResource(state.error),
                     style = MaterialTheme.typography.labelLarge,
-                    color = LocalKBWalletColorsPalette.current.lossRed,
+                    color = LocalKBLearningColorsPalette.current.lossRed,
                     modifier = Modifier.padding(4.dp)
                 )
             }
@@ -118,8 +118,8 @@ fun TradeScreen(
             onClick = onSubmitClicked,
             colors = ButtonDefaults.buttonColors(
                 containerColor = when (tradeType) {
-                    TradeType.BUY -> LocalKBWalletColorsPalette.current.profitGreen
-                    TradeType.SELL -> LocalKBWalletColorsPalette.current.lossRed
+                    TradeType.BUY -> LocalKBLearningColorsPalette.current.profitGreen
+                    TradeType.SELL -> LocalKBLearningColorsPalette.current.lossRed
                 }
             ),
             contentPadding = PaddingValues(horizontal = 64.dp),
@@ -159,7 +159,7 @@ fun CenteredDollarTextField(
         value = displayText,
         onValueChange = { newValue ->
             val trimmed = newValue.trimStart('0').trim { it.isDigit().not() }
-            if (trimmed.isEmpty() || trimmed.toInt() <= 10000) {
+            if (trimmed.isEmpty() || (trimmed.toLongOrNull() ?: Long.MAX_VALUE) <= 10000L) {
                 onAmountChange(trimmed)
             }
         },

@@ -1,6 +1,5 @@
 package dev.kbwallet.app.coins.presentation
 
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -36,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import dev.kbwallet.app.coins.presentation.component.PerformanceChart
-import dev.kbwallet.app.theme.LocalKBWalletColorsPalette
+import dev.kbwallet.app.theme.LocalKBLearningColorsPalette
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -165,7 +164,7 @@ private fun CoinListItem(
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = coin.formattedChange,
-                color = if (coin.isPositive) LocalKBWalletColorsPalette.current.profitGreen else LocalKBWalletColorsPalette.current.lossRed,
+                color = if (coin.isPositive) LocalKBLearningColorsPalette.current.profitGreen else LocalKBLearningColorsPalette.current.lossRed,
                 fontSize = MaterialTheme.typography.titleSmall.fontSize,
                 )
         }
@@ -200,8 +199,8 @@ fun CoinChartDialog(
                         .height(200.dp)
                         .padding(16.dp),
                     nodes = uiChartState.sparkLine,
-                    profitColor = LocalKBWalletColorsPalette.current.profitGreen,
-                    lossColor = LocalKBWalletColorsPalette.current.lossRed,
+                    profitColor = LocalKBLearningColorsPalette.current.profitGreen,
+                    lossColor = LocalKBLearningColorsPalette.current.lossRed,
                     )
             }
         },

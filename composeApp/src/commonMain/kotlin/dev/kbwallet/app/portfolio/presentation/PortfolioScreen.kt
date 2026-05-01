@@ -33,7 +33,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import coil3.compose.AsyncImage
-import dev.kbwallet.app.theme.LocalKBWalletColorsPalette
+import dev.kbwallet.app.theme.LocalKBLearningColorsPalette
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -49,7 +49,7 @@ fun PortfolioScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             CircularProgressIndicator(
-                color = LocalKBWalletColorsPalette.current.profitGreen,
+                color = LocalKBLearningColorsPalette.current.profitGreen,
                 modifier = Modifier.size(32.dp)
             )
         }
@@ -136,7 +136,7 @@ private fun PortfolioBalanceSection(
                 Button(
                     onClick = onBuyButtonClicked,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = LocalKBWalletColorsPalette.current.profitGreen
+                        containerColor = LocalKBLearningColorsPalette.current.profitGreen
                     ),
                     contentPadding = PaddingValues(horizontal = 64.dp),
                 ) {
@@ -246,7 +246,7 @@ fun CoinListItem(
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = coin.performancePercentText,
-                color = if (coin.isPositive) LocalKBWalletColorsPalette.current.profitGreen else LocalKBWalletColorsPalette.current.lossRed,
+                color = if (coin.isPositive) LocalKBLearningColorsPalette.current.profitGreen else LocalKBLearningColorsPalette.current.lossRed,
                 fontSize = MaterialTheme.typography.titleSmall.fontSize,
             )
         }
@@ -273,7 +273,7 @@ fun PortfolioEmptySection(
         Button(
             onClick = onDiscoverCoinsClicked,
             colors = ButtonDefaults.buttonColors(
-                containerColor = LocalKBWalletColorsPalette.current.profitGreen
+                containerColor = LocalKBLearningColorsPalette.current.profitGreen
             ),
             contentPadding = PaddingValues(horizontal = 64.dp),
         ) {

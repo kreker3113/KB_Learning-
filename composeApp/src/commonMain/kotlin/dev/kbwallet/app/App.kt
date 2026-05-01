@@ -16,7 +16,7 @@ import dev.kbwallet.app.core.navigation.Coins
 import dev.kbwallet.app.core.navigation.Portfolio
 import dev.kbwallet.app.core.navigation.Sell
 import dev.kbwallet.app.portfolio.presentation.PortfolioScreen
-import dev.kbwallet.app.theme.KBWalletTheme
+import dev.kbwallet.app.theme.KBLearningTheme
 import dev.kbwallet.app.trade.presentation.buy.BuyScreen
 import dev.kbwallet.app.trade.presentation.sell.SellScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -25,7 +25,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun App() {
     val navController: NavHostController = rememberNavController()
-    KBWalletTheme {
+    KBLearningTheme {
         NavHost(
             navController = navController,
             startDestination = Biometric,
@@ -33,7 +33,9 @@ fun App() {
         ) {
             composable<Biometric>() {
                 BiometricScreen {
-                    navController.navigate(Portfolio)
+                    navController.navigate(Portfolio) {
+                        popUpTo(Biometric) { inclusive = true }
+                    }
                 }
             }
             composable<Portfolio> {

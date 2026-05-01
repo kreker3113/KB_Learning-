@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import dev.kbwallet.app.core.biometric.BiometricAuthNotAvailable
 import dev.kbwallet.app.core.biometric.getBiometricAuthenticator
 import dev.kbwallet.app.core.biometric.getPlatformContext
-import dev.kbwallet.app.theme.LocalKBWalletColorsPalette
+import dev.kbwallet.app.theme.LocalKBLearningColorsPalette
 import kotlinx.coroutines.launch
 
 @Composable
@@ -41,7 +41,7 @@ fun BiometricScreen(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "KBWallet",
+                text = "KB Learning",
                 color = MaterialTheme.colorScheme.onBackground,
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -76,7 +76,7 @@ fun BiometricScreen(
             authError?.let {
                 Text(
                     text = it,
-                    color = LocalKBWalletColorsPalette.current.lossRed,
+                    color = LocalKBLearningColorsPalette.current.lossRed,
                     fontSize = MaterialTheme.typography.labelSmall.fontSize,
                 )
             }

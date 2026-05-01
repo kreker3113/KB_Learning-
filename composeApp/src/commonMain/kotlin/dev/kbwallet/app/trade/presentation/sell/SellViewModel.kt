@@ -55,7 +55,7 @@ class SellViewModel(
         }
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
+        started = SharingStarted.WhileSubscribed(5000),
         initialValue = TradeState(isLoading = true)
     )
     private val _events = Channel<SellEvents>(capacity = Channel.BUFFERED)
@@ -94,10 +94,14 @@ class SellViewModel(
 
     fun onSellClicked() {
         val tradeCoin = state.value.coin ?: return
+        val amount = _amount.value.toDoubleOrNull()
+        if (amount == null || amount <= 0.0) {
+            return
+        }
         viewModelScope.launch {
             val sellCoinResponse = sellCoinUseCase.sellCoin(
                 coin = tradeCoin.toCoin(),
-                amountInFiat = _amount.value.toDouble(),
+                amountInFiat = amount,
                 price = tradeCoin.price
             )
             when (sellCoinResponse) {

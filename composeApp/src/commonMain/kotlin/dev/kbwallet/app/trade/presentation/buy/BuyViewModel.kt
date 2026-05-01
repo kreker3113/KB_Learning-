@@ -43,7 +43,7 @@ class BuyViewModel(
         getCoinDetails(balance)
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(),
+        started = SharingStarted.WhileSubscribed(5000),
         initialValue = TradeState(isLoading = true)
     )
 
@@ -84,10 +84,14 @@ class BuyViewModel(
 
     fun onBuyClicked() {
         val tradeCoin = state.value.coin ?: return
+        val amount = _amount.value.toDoubleOrNull()
+        if (amount == null || amount <= 0.0) {
+            return
+        }
         viewModelScope.launch {
             val buyCoinResponse = buyCoinUseCase.buyCoin(
                 coin = tradeCoin.toCoin(),
-                amountInFiat = _amount.value.toDouble(),
+                amountInFiat = amount,
                 price = tradeCoin.price,
             )
 

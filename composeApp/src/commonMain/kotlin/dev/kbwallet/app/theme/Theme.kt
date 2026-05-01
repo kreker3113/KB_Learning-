@@ -84,15 +84,15 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 @Composable
-internal fun KBWalletTheme(
+internal fun KBLearningTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
-    val KBWalletColorsPalette = if (darkTheme) DarkKBWalletColorsPalette else LigthKBWalletColorsPalette
+    val kbLearningColorsPalette = if (darkTheme) DarkKBLearningColorsPalette else LightKBLearningColorsPalette
 
     CompositionLocalProvider(
-        LocalKBWalletColorsPalette provides KBWalletColorsPalette,
+        LocalKBLearningColorsPalette provides kbLearningColorsPalette,
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

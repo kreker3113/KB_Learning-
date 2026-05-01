@@ -29,7 +29,15 @@ class AndroidBiometricAuthenticator(
                 object : BiometricPrompt.AuthenticationCallback() {
                     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                         if (continuation.isActive) {
-                            continuation.resumeWithException(Exception(errString.toString()))
+                            // Пользователь нажал «Отмена» или закрыл диалог — не выбрасываем исключение
+                            if (errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON ||
+                                errorCode == BiometricPrompt.ERROR_USER_CANCELED ||
+                                errorCode == BiometricPrompt.ERROR_CANCELED
+                            ) {
+                                continuation.resume(false)
+                            } else {
+                                continuation.resumeWithException(Exception(errString.toString()))
+                            }
                         }
                     }
 
@@ -47,7 +55,7 @@ class AndroidBiometricAuthenticator(
                 }
             )
             val promptInfo = BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Biometric Authentication")
+                .setTitle("KB Learning")
                 .setSubtitle("Authenticate using biometrics")
                 .setNegativeButtonText("Cancel")
                 .build()

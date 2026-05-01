@@ -5,7 +5,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 @Immutable
-data class KBWalletColorsPalette(
+data class KBLearningColorsPalette(
     var profitGreen: Color = Color.Unspecified,
     var lossRed: Color = Color.Unspecified,
 )
@@ -16,14 +16,14 @@ val LossRedColor = Color(color = 0xFFD2122E)
 val DarkProfitGreenColor = Color(color = 0xFF32de84)
 val DarkLossRedColor = Color(color = 0xFFD2122E)
 
-val LigthKBWalletColorsPalette = KBWalletColorsPalette(
+val LightKBLearningColorsPalette = KBLearningColorsPalette(
     profitGreen = ProfitGreenColor,
     lossRed = LossRedColor
 )
 
-val DarkKBWalletColorsPalette = KBWalletColorsPalette(
+val DarkKBLearningColorsPalette = KBLearningColorsPalette(
     profitGreen = ProfitGreenColor,
     lossRed = LossRedColor
 )
 
-val LocalKBWalletColorsPalette = compositionLocalOf { KBWalletColorsPalette() }
+val LocalKBLearningColorsPalette = compositionLocalOf { KBLearningColorsPalette() }
