@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -35,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -51,6 +53,15 @@ fun TradeScreen(
     onAmountChange: (String) -> Unit,
     onSubmitClicked: () -> Unit,
 ) {
+    val accentColor = when (tradeType) {
+        TradeType.BUY -> MaterialTheme.colorScheme.primary
+        TradeType.SELL -> LocalKBLearningColorsPalette.current.lossRed
+    }
+    val buttonTextColor = when (tradeType) {
+        TradeType.BUY -> MaterialTheme.colorScheme.onPrimary
+        TradeType.SELL -> Color.White
+    }
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -59,18 +70,20 @@ fun TradeScreen(
             .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.align(Alignment.Center)
         ) {
+            // ── Coin Chip ──
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .border(
                         width = 1.dp,
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = MaterialTheme.colorScheme.outline,
                         shape = RoundedCornerShape(32.dp)
                     )
-                    .padding(horizontal = 16.dp, vertical = 4.dp)
+                    .padding(horizontal = 16.dp, vertical = 6.dp)
             ) {
                 AsyncImage(
                     model = state.coin?.iconUrl,
@@ -78,33 +91,42 @@ fun TradeScreen(
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.padding(4.dp).clip(CircleShape).size(24.dp)
                 )
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = state.coin?.name ?: "",
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(4.dp)
                 )
             }
+
             Spacer(modifier = Modifier.height(24.dp))
+
+            // ── Title ──
             Text(
                 text = when (tradeType) {
-                    TradeType.BUY -> "Сумма покупки"
-                    TradeType.SELL -> "Сумма продажи"
+                    TradeType.BUY -> "Buy Amount"
+                    TradeType.SELL -> "Sell Amount"
                 },
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = Color.Gray,
             )
+
+            // ── Amount Input ──
             CenteredDollarTextField(
                 amountText = state.amount,
                 onAmountChange = onAmountChange
             )
+
+            // ── Available Balance ──
             Text(
                 text = state.availableAmount,
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = Color.Gray,
                 modifier = Modifier.padding(4.dp)
             )
+
+            // ── Error ──
             if (state.error != null) {
                 Text(
                     text = stringResource(state.error),
@@ -114,27 +136,28 @@ fun TradeScreen(
                 )
             }
         }
+
+        // ── Action Button ──
         Button(
             onClick = onSubmitClicked,
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp, vertical = 32.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = when (tradeType) {
-                    TradeType.BUY -> LocalKBLearningColorsPalette.current.profitGreen
-                    TradeType.SELL -> LocalKBLearningColorsPalette.current.lossRed
-                }
+                containerColor = accentColor,
+                contentColor = buttonTextColor,
             ),
-            contentPadding = PaddingValues(horizontal = 64.dp),
-            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 32.dp)
+            contentPadding = PaddingValues(horizontal = 64.dp, vertical = 14.dp),
         ) {
             Text(
                 text = when (tradeType) {
-                    TradeType.BUY -> "Купить"
-                    TradeType.SELL -> "Продать"
+                    TradeType.BUY -> "Buy"
+                    TradeType.SELL -> "Sell"
                 },
-                style = MaterialTheme.typography.bodyLarge,
-                color = when (tradeType) {
-                    TradeType.BUY -> MaterialTheme.colorScheme.onPrimary
-                    TradeType.SELL -> MaterialTheme.colorScheme.onBackground
-                }
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
             )
         }
     }
@@ -168,7 +191,8 @@ fun CenteredDollarTextField(
             .padding(16.dp),
         textStyle = TextStyle(
             color = MaterialTheme.colorScheme.onBackground,
-            fontSize = 24.sp,
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         ),
         keyboardOptions = KeyboardOptions.Default.copy(
@@ -182,11 +206,11 @@ fun CenteredDollarTextField(
                 innerTextField()
             }
         },
-        cursorBrush = SolidColor(Color.White),
+        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
         visualTransformation = currencyVisualTransformation,
     )
 }
 
-enum class TradeType{
+enum class TradeType {
     BUY, SELL
 }

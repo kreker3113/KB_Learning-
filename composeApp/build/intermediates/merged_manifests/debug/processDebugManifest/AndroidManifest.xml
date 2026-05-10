@@ -20,7 +20,7 @@
     <uses-permission android:name="dev.kbwallet.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
-        android:name="dev.kbwallet.app.KBWalletApplication"
+        android:name="dev.kbwallet.app.KBLearningApplication"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"

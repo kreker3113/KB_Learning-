@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:2:1-27:12
-INJECTED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:2:1-27:12
-INJECTED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:2:1-27:12
-INJECTED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:2:1-27:12
+ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:2:1-27:12
+INJECTED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:2:1-27:12
+INJECTED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:2:1-27:12
+INJECTED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:2:1-27:12
 MERGED from [io.insert-koin:koin-androidx-compose:4.0.0] /home/quartz/.gradle/caches/8.9/transforms/99c853bbccfabc6f1726bd7c61f9bc14/transformed/koin-androidx-compose-4.0.0/AndroidManifest.xml:2:1-7:12
 MERGED from [io.insert-koin:koin-android:4.0.0] /home/quartz/.gradle/caches/8.9/transforms/398c82d5a797057133209f05156ae637/transformed/koin-android-4.0.0/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.biometric:biometric-ktx:1.4.0-alpha02] /home/quartz/.gradle/caches/8.9/transforms/873896f2f21c11c1019c102ba53861b1/transformed/biometric-ktx-1.4.0-alpha02/AndroidManifest.xml:2:1-7:12
@@ -42,6 +42,7 @@ MERGED from [androidx.compose.ui:ui-text-android:1.7.1] /home/quartz/.gradle/cac
 MERGED from [androidx.compose.ui:ui-tooling-android:1.7.1] /home/quartz/.gradle/caches/8.9/transforms/913234122378d745f22ea69ed6f05939/transformed/ui-tooling-release/AndroidManifest.xml:17:1-28:12
 MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.7.1] /home/quartz/.gradle/caches/8.9/transforms/9b846d4522d68afee93f188143a913cc/transformed/ui-tooling-preview-release/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.accompanist:accompanist-drawablepainter:0.36.0] /home/quartz/.gradle/caches/8.9/transforms/d72707fb9a3997ff51c089373f8ee836/transformed/accompanist-drawablepainter-0.36.0/AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.compose.material:material-icons-extended-android:1.7.1] /home/quartz/.gradle/caches/8.9/transforms/5ec7aa0dbaa5b3e6a3fffb61856fa160/transformed/material-icons-extended-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material:material-icons-core-android:1.7.1] /home/quartz/.gradle/caches/8.9/transforms/ef29e30fc66f0e5b10ba68f836b4cb39/transformed/material-icons-core-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/quartz/.gradle/caches/8.9/transforms/78a1d01023df9dda2f47535f98058f87/transformed/drawerlayout-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.emoji2:emoji2-views-helper:1.3.0] /home/quartz/.gradle/caches/8.9/transforms/f94e4596e9af1cbf2761bf50eda8a6fc/transformed/emoji2-views-helper-1.3.0/AndroidManifest.xml:2:1-7:12
@@ -92,26 +93,26 @@ MERGED from [androidx.interpolator:interpolator:1.0.0] /home/quartz/.gradle/cach
 MERGED from [androidx.exifinterface:exifinterface:1.3.7] /home/quartz/.gradle/caches/8.9/transforms/fd9436e8720eeba3e9e92319b10cb25d/transformed/exifinterface-1.3.7/AndroidManifest.xml:17:1-24:12
 MERGED from [com.caverock:androidsvg-aar:1.4] /home/quartz/.gradle/caches/8.9/transforms/53ded365a14996449dff3a4f509cf7bd/transformed/androidsvg-aar-1.4/AndroidManifest.xml:2:1-11:12
 	package
-		INJECTED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
+		INJECTED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
 	android:versionName
-		INJECTED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
+		INJECTED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
+		INJECTED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
 	xmlns:android
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:2:11-69
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
-ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:4:5-67
+ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:4:5-67
 	android:name
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:4:22-64
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:4:22-64
 uses-permission#android.permission.USE_BIOMETRIC
-ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:5:5-72
+ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:5:5-72
 MERGED from [androidx.biometric:biometric:1.4.0-alpha02] /home/quartz/.gradle/caches/8.9/transforms/87a14061171e0a74a1167614c0c97fa8/transformed/biometric-1.4.0-alpha02/AndroidManifest.xml:22:5-72
 MERGED from [androidx.biometric:biometric:1.4.0-alpha02] /home/quartz/.gradle/caches/8.9/transforms/87a14061171e0a74a1167614c0c97fa8/transformed/biometric-1.4.0-alpha02/AndroidManifest.xml:22:5-72
 	android:name
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:5:22-69
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:5:22-69
 application
-ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:7:5-26:19
-INJECTED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:7:5-26:19
+ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:7:5-26:19
+INJECTED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:7:5-26:19
 MERGED from [io.insert-koin:koin-android:4.0.0] /home/quartz/.gradle/caches/8.9/transforms/398c82d5a797057133209f05156ae637/transformed/koin-android-4.0.0/AndroidManifest.xml:7:5-20
 MERGED from [io.insert-koin:koin-android:4.0.0] /home/quartz/.gradle/caches/8.9/transforms/398c82d5a797057133209f05156ae637/transformed/koin-android-4.0.0/AndroidManifest.xml:7:5-20
 MERGED from [org.jetbrains.compose.components:components-resources-android:1.7.0] /home/quartz/.gradle/caches/8.9/transforms/f6779489160f70ead001ffedc6daca05/transformed/library-release/AndroidManifest.xml:7:5-14:19
@@ -133,47 +134,47 @@ MERGED from [androidx.profileinstaller:profileinstaller:1.4.1] /home/quartz/.gra
 MERGED from [androidx.startup:startup-runtime:1.1.1] /home/quartz/.gradle/caches/8.9/transforms/a9571e6b1df53a5962e6e85370b15d56/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
 MERGED from [androidx.startup:startup-runtime:1.1.1] /home/quartz/.gradle/caches/8.9/transforms/a9571e6b1df53a5962e6e85370b15d56/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
 	android:extractNativeLibs
-		INJECTED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
+		INJECTED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] /home/quartz/.gradle/caches/8.9/transforms/c05c1acff58d39d8b972b67b103c1cef/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:12:9-35
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:12:9-35
 	android:label
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:10:9-41
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:10:9-41
 	android:roundIcon
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:11:9-54
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:11:9-54
 	android:icon
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:9:9-43
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:9:9-43
 	android:allowBackup
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:8:9-35
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:8:9-35
 	android:theme
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:14:9-72
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:14:9-72
 	android:name
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:13:9-44
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:13:9-46
 activity#dev.kbwallet.app.MainActivity
-ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:15:9-25:20
+ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:15:9-25:20
 	android:windowSoftInputMode
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:17:13-55
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:17:13-55
 	android:exported
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:16:13-36
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:16:13-36
 	android:configChanges
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:18:13-225
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:18:13-225
 	android:name
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:19:13-41
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:19:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:20:13-24:29
+ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:20:13-24:29
 action#android.intent.action.MAIN
-ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:21:17-69
+ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:21:17-69
 	android:name
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:21:25-66
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:21:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:23:17-77
+ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:23:17-77
 	android:name
-		ADDED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:23:27-74
+		ADDED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:23:27-74
 uses-sdk
-INJECTED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
-INJECTED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
+INJECTED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
+INJECTED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
 MERGED from [io.insert-koin:koin-androidx-compose:4.0.0] /home/quartz/.gradle/caches/8.9/transforms/99c853bbccfabc6f1726bd7c61f9bc14/transformed/koin-androidx-compose-4.0.0/AndroidManifest.xml:5:5-44
 MERGED from [io.insert-koin:koin-androidx-compose:4.0.0] /home/quartz/.gradle/caches/8.9/transforms/99c853bbccfabc6f1726bd7c61f9bc14/transformed/koin-androidx-compose-4.0.0/AndroidManifest.xml:5:5-44
 MERGED from [io.insert-koin:koin-android:4.0.0] /home/quartz/.gradle/caches/8.9/transforms/398c82d5a797057133209f05156ae637/transformed/koin-android-4.0.0/AndroidManifest.xml:5:5-44
@@ -250,6 +251,8 @@ MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.7.1] /home/quartz/
 MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.7.1] /home/quartz/.gradle/caches/8.9/transforms/9b846d4522d68afee93f188143a913cc/transformed/ui-tooling-preview-release/AndroidManifest.xml:20:5-44
 MERGED from [com.google.accompanist:accompanist-drawablepainter:0.36.0] /home/quartz/.gradle/caches/8.9/transforms/d72707fb9a3997ff51c089373f8ee836/transformed/accompanist-drawablepainter-0.36.0/AndroidManifest.xml:21:5-44
 MERGED from [com.google.accompanist:accompanist-drawablepainter:0.36.0] /home/quartz/.gradle/caches/8.9/transforms/d72707fb9a3997ff51c089373f8ee836/transformed/accompanist-drawablepainter-0.36.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.7.1] /home/quartz/.gradle/caches/8.9/transforms/5ec7aa0dbaa5b3e6a3fffb61856fa160/transformed/material-icons-extended-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.7.1] /home/quartz/.gradle/caches/8.9/transforms/5ec7aa0dbaa5b3e6a3fffb61856fa160/transformed/material-icons-extended-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-icons-core-android:1.7.1] /home/quartz/.gradle/caches/8.9/transforms/ef29e30fc66f0e5b10ba68f836b4cb39/transformed/material-icons-core-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-icons-core-android:1.7.1] /home/quartz/.gradle/caches/8.9/transforms/ef29e30fc66f0e5b10ba68f836b4cb39/transformed/material-icons-core-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/quartz/.gradle/caches/8.9/transforms/78a1d01023df9dda2f47535f98058f87/transformed/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
@@ -349,9 +352,9 @@ MERGED from [androidx.exifinterface:exifinterface:1.3.7] /home/quartz/.gradle/ca
 MERGED from [com.caverock:androidsvg-aar:1.4] /home/quartz/.gradle/caches/8.9/transforms/53ded365a14996449dff3a4f509cf7bd/transformed/androidsvg-aar-1.4/AndroidManifest.xml:7:5-9:41
 MERGED from [com.caverock:androidsvg-aar:1.4] /home/quartz/.gradle/caches/8.9/transforms/53ded365a14996449dff3a4f509cf7bd/transformed/androidsvg-aar-1.4/AndroidManifest.xml:7:5-9:41
 	android:targetSdkVersion
-		INJECTED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
+		INJECTED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
+		INJECTED from /home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml
 uses-permission#android.permission.USE_FINGERPRINT
 ADDED from [androidx.biometric:biometric:1.4.0-alpha02] /home/quartz/.gradle/caches/8.9/transforms/87a14061171e0a74a1167614c0c97fa8/transformed/biometric-1.4.0-alpha02/AndroidManifest.xml:25:5-74
 	android:name

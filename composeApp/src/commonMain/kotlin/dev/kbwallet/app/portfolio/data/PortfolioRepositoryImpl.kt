@@ -7,6 +7,8 @@ import dev.kbwallet.app.core.domain.EmptyResult
 import dev.kbwallet.app.core.domain.Result
 import dev.kbwallet.app.core.domain.onError
 import dev.kbwallet.app.core.domain.onSuccess
+import dev.kbwallet.app.history.data.TransactionDao
+import dev.kbwallet.app.history.data.TransactionEntity
 import dev.kbwallet.app.portfolio.data.local.PortfolioDao
 import dev.kbwallet.app.portfolio.data.local.UserBalanceDao
 import dev.kbwallet.app.portfolio.data.local.UserBalanceEntity
@@ -20,10 +22,12 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.datetime.Clock
 
 class PortfolioRepositoryImpl(
     private val portfolioDao: PortfolioDao,
     private val userBalanceDao: UserBalanceDao,
+    private val transactionDao: TransactionDao,
     private val coinsRemoteDataSource: CoinsRemoteDataSource,
 ) : PortfolioRepository {
 
@@ -146,5 +150,47 @@ class PortfolioRepositoryImpl(
 
     override suspend fun updateCashBalance(newBalance: Double) {
         userBalanceDao.updateCashBalance(newBalance)
+    }
+
+    // ── Transaction history ──
+
+    override suspend fun recordTransaction(
+        coinId: String,
+        coinName: String,
+        coinSymbol: String,
+        type: String,
+        amountInFiat: Double,
+        amountInUnit: Double,
+        pricePerUnit: Double,
+    ) {
+        transactionDao.insert(
+            TransactionEntity(
+                coinId = coinId,
+                coinName = coinName,
+                coinSymbol = coinSymbol,
+                type = type,
+                amountInFiat = amountInFiat,
+                amountInUnit = amountInUnit,
+                pricePerUnit = pricePerUnit,
+                timestamp = Clock.System.now().toEpochMilliseconds(),
+                status = "Completed",
+            )
+        )
+    }
+
+    override fun getAllTransactions(): Flow<List<TransactionEntity>> {
+        return transactionDao.getAllTransactions()
+    }
+
+    override suspend fun getTotalTradeCount(): Int {
+        return transactionDao.getTotalTradeCount()
+    }
+
+    override suspend fun getTotalBuyCount(): Int {
+        return transactionDao.getTotalBuyCount()
+    }
+
+    override suspend fun getTotalSellCount(): Int {
+        return transactionDao.getTotalSellCount()
     }
 }

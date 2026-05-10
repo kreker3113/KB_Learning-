@@ -22,7 +22,10 @@ import org.koin.dsl.module
 import androidx.room.RoomDatabase
 import dev.kbwallet.app.core.database.portfolio.PortfolioDatabase
 import dev.kbwallet.app.core.database.portfolio.getPortfolioDatabase
+import dev.kbwallet.app.dashboard.presentation.DashboardViewModel
+import dev.kbwallet.app.history.presentation.HistoryViewModel
 import dev.kbwallet.app.portfolio.presentation.PortfolioViewModel
+import dev.kbwallet.app.profile.presentation.ProfileViewModel
 import dev.kbwallet.app.trade.domain.BuyCoinUseCase
 import dev.kbwallet.app.trade.domain.SellCoinUseCase
 
@@ -56,6 +59,7 @@ val sharedModule = module {
     singleOf(::PortfolioRepositoryImpl).bind<PortfolioRepository>()
     single { get<PortfolioDatabase>().portfolioDao() }
     single { get<PortfolioDatabase>().userBalanceDao() }
+    single { get<PortfolioDatabase>().transactionDao() }
     viewModel { PortfolioViewModel(get()) }
 
     // coins list
@@ -65,4 +69,12 @@ val sharedModule = module {
     singleOf(::GetCoinDetailsUseCase)
     singleOf(::GetCoinPriceHistoryUseCase)
 
+    // dashboard
+    viewModel { DashboardViewModel(get(), get()) }
+
+    // history
+    viewModel { HistoryViewModel(get()) }
+
+    // profile
+    viewModel { ProfileViewModel(get()) }
 }

@@ -9,11 +9,11 @@
 9        android:targetSdkVersion="35" />
 10
 11    <uses-permission android:name="android.permission.INTERNET" />
-11-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:4:5-67
-11-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:4:22-64
+11-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:4:5-67
+11-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:4:22-64
 12    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
-12-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:5:5-72
-12-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:5:22-69
+12-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:5:5-72
+12-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:5:22-69
 13    <!-- suppress DeprecatedClassUsageInspection -->
 14    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 14-->[androidx.biometric:biometric:1.4.0-alpha02] /home/quartz/.gradle/caches/8.9/transforms/87a14061171e0a74a1167614c0c97fa8/transformed/biometric-1.4.0-alpha02/AndroidManifest.xml:25:5-74
@@ -31,45 +31,45 @@
 20-->[androidx.core:core:1.13.1] /home/quartz/.gradle/caches/8.9/transforms/c05c1acff58d39d8b972b67b103c1cef/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
 21
 22    <application
-22-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:7:5-26:19
-23        android:name="dev.kbwallet.app.KBWalletApplication"
-23-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:13:9-44
+22-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:7:5-26:19
+23        android:name="dev.kbwallet.app.KBLearningApplication"
+23-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:13:9-46
 24        android:allowBackup="true"
-24-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:8:9-35
+24-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:8:9-35
 25        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 25-->[androidx.core:core:1.13.1] /home/quartz/.gradle/caches/8.9/transforms/c05c1acff58d39d8b972b67b103c1cef/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 26        android:debuggable="true"
 27        android:extractNativeLibs="false"
 28        android:icon="@mipmap/ic_launcher"
-28-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:9:9-43
+28-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:9:9-43
 29        android:label="@string/app_name"
-29-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:10:9-41
+29-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:10:9-41
 30        android:roundIcon="@mipmap/ic_launcher_round"
-30-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:11:9-54
+30-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:11:9-54
 31        android:supportsRtl="true"
-31-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:12:9-35
+31-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:12:9-35
 32        android:testOnly="true"
 33        android:theme="@android:style/Theme.Material.Light.NoActionBar" >
-33-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:14:9-72
+33-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:14:9-72
 34        <activity
-34-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:15:9-25:20
+34-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:15:9-25:20
 35            android:name="dev.kbwallet.app.MainActivity"
-35-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:19:13-41
+35-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:19:13-41
 36            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden|mnc|colorMode|density|fontScale|fontWeightAdjustment|keyboard|layoutDirection|locale|mcc|navigation|smallestScreenSize|touchscreen|uiMode"
-36-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:18:13-225
+36-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:18:13-225
 37            android:exported="true"
-37-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:16:13-36
+37-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:16:13-36
 38            android:windowSoftInputMode="adjustResize" >
-38-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:17:13-55
+38-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:17:13-55
 39            <intent-filter>
-39-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:20:13-24:29
+39-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:20:13-24:29
 40                <action android:name="android.intent.action.MAIN" />
-40-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:21:17-69
-40-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:21:25-66
+40-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:21:17-69
+40-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:21:25-66
 41
 42                <category android:name="android.intent.category.LAUNCHER" />
-42-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:23:17-77
-42-->/home/quartz/Desktop/demo/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:23:27-74
+42-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:23:17-77
+42-->/home/quartz/Desktop/KB_Project/KB_Learning/composeApp/src/androidMain/AndroidManifest.xml:23:27-74
 43            </intent-filter>
 44        </activity>
 45

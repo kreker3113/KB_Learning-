@@ -3,6 +3,7 @@ package dev.kbwallet.app.portfolio.domain
 import dev.kbwallet.app.core.domain.DataError
 import dev.kbwallet.app.core.domain.EmptyResult
 import dev.kbwallet.app.core.domain.Result
+import dev.kbwallet.app.history.data.TransactionEntity
 import kotlinx.coroutines.flow.Flow
 
 interface PortfolioRepository {
@@ -17,4 +18,19 @@ interface PortfolioRepository {
     fun totalBalanceFlow(): Flow<Result<Double, DataError.Remote>>
     fun cashBalanceFlow(): Flow<Double>
     suspend fun updateCashBalance(newBalance: Double)
+
+    // ── Transaction history ──
+    suspend fun recordTransaction(
+        coinId: String,
+        coinName: String,
+        coinSymbol: String,
+        type: String,
+        amountInFiat: Double,
+        amountInUnit: Double,
+        pricePerUnit: Double,
+    )
+    fun getAllTransactions(): Flow<List<TransactionEntity>>
+    suspend fun getTotalTradeCount(): Int
+    suspend fun getTotalBuyCount(): Int
+    suspend fun getTotalSellCount(): Int
 }

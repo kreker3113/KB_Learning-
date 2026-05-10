@@ -51,6 +51,15 @@ class BuyCoinUseCase(
             )
         }
         portfolioRepository.updateCashBalance(balance - amountInFiat)
+        portfolioRepository.recordTransaction(
+            coinId = coin.id,
+            coinName = coin.name,
+            coinSymbol = coin.symbol,
+            type = "BUY",
+            amountInFiat = amountInFiat,
+            amountInUnit = amountInUnit,
+            pricePerUnit = price,
+        )
         return Result.Success(Unit)
     }
 }

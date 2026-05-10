@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "dev.kbwallet.app.composeApp-mergeDebugResources-63:/values-ja/values-ja.xml",
+            "outputFile": "dev.kbwallet.app.composeApp-mergeDebugResources-64:/values-ja/values-ja.xml",
             "map": [
                 {
                     "source": "/home/quartz/.gradle/caches/8.9/transforms/0cd8a77dfabac4d552fbe8646ed21ad5/transformed/foundation-release/res/values-ja/values-ja.xml",

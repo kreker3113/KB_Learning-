@@ -9,6 +9,8 @@ import androidx.room.util.TableInfo.Companion.read
 import androidx.room.util.dropFtsSyncTriggers
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.execSQL
+import dev.kbwallet.app.history.`data`.TransactionDao
+import dev.kbwallet.app.history.`data`.TransactionDao_Impl
 import dev.kbwallet.app.portfolio.`data`.local.PortfolioDao
 import dev.kbwallet.app.portfolio.`data`.local.PortfolioDao_Impl
 import dev.kbwallet.app.portfolio.`data`.local.UserBalanceDao
@@ -41,19 +43,26 @@ public class PortfolioDatabase_Impl : PortfolioDatabase() {
   }
 
 
+  private val _transactionDao: Lazy<TransactionDao> = lazy {
+    TransactionDao_Impl(this)
+  }
+
+
   protected override fun createOpenDelegate(): RoomOpenDelegate {
-    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(2,
-        "04e00e83480c9a3e202ab5278668708e", "53d71a816e3ee9cc783fccefa2b9d2c6") {
+    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(3,
+        "9f008f23344d18bb838b55899dca1ff1", "4a661aa16b89fd88a631c5a7f8ed81c2") {
       public override fun createAllTables(connection: SQLiteConnection) {
         connection.execSQL("CREATE TABLE IF NOT EXISTS `PortfolioCoinEntity` (`coinId` TEXT NOT NULL, `name` TEXT NOT NULL, `symbol` TEXT NOT NULL, `iconUrl` TEXT NOT NULL, `averagePurchasePrice` REAL NOT NULL, `amountOwned` REAL NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY(`coinId`))")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `UserBalanceEntity` (`id` INTEGER NOT NULL, `cashBalance` REAL NOT NULL, PRIMARY KEY(`id`))")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `TransactionEntity` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `coinId` TEXT NOT NULL, `coinName` TEXT NOT NULL, `coinSymbol` TEXT NOT NULL, `type` TEXT NOT NULL, `amountInFiat` REAL NOT NULL, `amountInUnit` REAL NOT NULL, `pricePerUnit` REAL NOT NULL, `timestamp` INTEGER NOT NULL, `status` TEXT NOT NULL)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)")
-        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '04e00e83480c9a3e202ab5278668708e')")
+        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9f008f23344d18bb838b55899dca1ff1')")
       }
 
       public override fun dropAllTables(connection: SQLiteConnection) {
         connection.execSQL("DROP TABLE IF EXISTS `PortfolioCoinEntity`")
         connection.execSQL("DROP TABLE IF EXISTS `UserBalanceEntity`")
+        connection.execSQL("DROP TABLE IF EXISTS `TransactionEntity`")
       }
 
       public override fun onCreate(connection: SQLiteConnection) {
@@ -122,6 +131,41 @@ public class PortfolioDatabase_Impl : PortfolioDatabase() {
               | Found:
               |""".trimMargin() + _existingUserBalanceEntity)
         }
+        val _columnsTransactionEntity: MutableMap<String, TableInfo.Column> = mutableMapOf()
+        _columnsTransactionEntity.put("id", TableInfo.Column("id", "INTEGER", true, 1, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsTransactionEntity.put("coinId", TableInfo.Column("coinId", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsTransactionEntity.put("coinName", TableInfo.Column("coinName", "TEXT", true, 0,
+            null, TableInfo.CREATED_FROM_ENTITY))
+        _columnsTransactionEntity.put("coinSymbol", TableInfo.Column("coinSymbol", "TEXT", true, 0,
+            null, TableInfo.CREATED_FROM_ENTITY))
+        _columnsTransactionEntity.put("type", TableInfo.Column("type", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsTransactionEntity.put("amountInFiat", TableInfo.Column("amountInFiat", "REAL", true,
+            0, null, TableInfo.CREATED_FROM_ENTITY))
+        _columnsTransactionEntity.put("amountInUnit", TableInfo.Column("amountInUnit", "REAL", true,
+            0, null, TableInfo.CREATED_FROM_ENTITY))
+        _columnsTransactionEntity.put("pricePerUnit", TableInfo.Column("pricePerUnit", "REAL", true,
+            0, null, TableInfo.CREATED_FROM_ENTITY))
+        _columnsTransactionEntity.put("timestamp", TableInfo.Column("timestamp", "INTEGER", true, 0,
+            null, TableInfo.CREATED_FROM_ENTITY))
+        _columnsTransactionEntity.put("status", TableInfo.Column("status", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        val _foreignKeysTransactionEntity: MutableSet<TableInfo.ForeignKey> = mutableSetOf()
+        val _indicesTransactionEntity: MutableSet<TableInfo.Index> = mutableSetOf()
+        val _infoTransactionEntity: TableInfo = TableInfo("TransactionEntity",
+            _columnsTransactionEntity, _foreignKeysTransactionEntity, _indicesTransactionEntity)
+        val _existingTransactionEntity: TableInfo = read(connection, "TransactionEntity")
+        if (!_infoTransactionEntity.equals(_existingTransactionEntity)) {
+          return RoomOpenDelegate.ValidationResult(false, """
+              |TransactionEntity(dev.kbwallet.app.history.data.TransactionEntity).
+              | Expected:
+              |""".trimMargin() + _infoTransactionEntity + """
+              |
+              | Found:
+              |""".trimMargin() + _existingTransactionEntity)
+        }
         return RoomOpenDelegate.ValidationResult(true, null)
       }
     }
@@ -132,17 +176,18 @@ public class PortfolioDatabase_Impl : PortfolioDatabase() {
     val _shadowTablesMap: MutableMap<String, String> = mutableMapOf()
     val _viewTables: MutableMap<String, Set<String>> = mutableMapOf()
     return InvalidationTracker(this, _shadowTablesMap, _viewTables, "PortfolioCoinEntity",
-        "UserBalanceEntity")
+        "UserBalanceEntity", "TransactionEntity")
   }
 
   public override fun clearAllTables() {
-    super.performClear(false, "PortfolioCoinEntity", "UserBalanceEntity")
+    super.performClear(false, "PortfolioCoinEntity", "UserBalanceEntity", "TransactionEntity")
   }
 
   protected override fun getRequiredTypeConverterClasses(): Map<KClass<*>, List<KClass<*>>> {
     val _typeConvertersMap: MutableMap<KClass<*>, List<KClass<*>>> = mutableMapOf()
     _typeConvertersMap.put(PortfolioDao::class, PortfolioDao_Impl.getRequiredConverters())
     _typeConvertersMap.put(UserBalanceDao::class, UserBalanceDao_Impl.getRequiredConverters())
+    _typeConvertersMap.put(TransactionDao::class, TransactionDao_Impl.getRequiredConverters())
     return _typeConvertersMap
   }
 
@@ -161,4 +206,6 @@ public class PortfolioDatabase_Impl : PortfolioDatabase() {
   public override fun portfolioDao(): PortfolioDao = _portfolioDao.value
 
   public override fun userBalanceDao(): UserBalanceDao = _userBalanceDao.value
+
+  public override fun transactionDao(): TransactionDao = _transactionDao.value
 }

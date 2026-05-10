@@ -9,14 +9,14 @@ import kotlinx.coroutines.flow.first
 
 class SellCoinUseCase(
     private val portfolioRepository: PortfolioRepository,
-    ) {
+) {
     suspend fun sellCoin(
         coin: Coin,
         amountInFiat: Double,
         price: Double,
-        ): EmptyResult<DataError> {
+    ): EmptyResult<DataError> {
         val sellAllThreshold = 1
-        when(val existingCoinResponse = portfolioRepository.getPortfolioCoin(coin.id)) {
+        when (val existingCoinResponse = portfolioRepository.getPortfolioCoin(coin.id)) {
             is Result.Success -> {
                 val existingCoin = existingCoinResponse.data
                 val sellAmountInUnit = amountInFiat / price
@@ -33,10 +33,19 @@ class SellCoinUseCase(
                         existingCoin.copy(
                             ownedAmountInUnit = remainingAmountUnit,
                             ownedAmountInFiat = remainingAmountFiat,
-                            )
+                        )
                     )
                 }
                 portfolioRepository.updateCashBalance(balance + amountInFiat)
+                portfolioRepository.recordTransaction(
+                    coinId = coin.id,
+                    coinName = coin.name,
+                    coinSymbol = coin.symbol,
+                    type = "SELL",
+                    amountInFiat = amountInFiat,
+                    amountInUnit = sellAmountInUnit,
+                    pricePerUnit = price,
+                )
                 return Result.Success(Unit)
             }
             is Result.Error -> {

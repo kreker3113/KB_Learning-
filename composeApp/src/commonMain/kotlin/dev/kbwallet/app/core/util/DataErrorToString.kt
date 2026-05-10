@@ -1,15 +1,14 @@
 package dev.kbwallet.app.core.util
 
-
-import kbwallet.composeapp.generated.resources.error_disk_full
-import kbwallet.composeapp.generated.resources.error_insufficient_balance
-import kbwallet.composeapp.generated.resources.error_no_internet
-import kbwallet.composeapp.generated.resources.error_request_timeout
-import kbwallet.composeapp.generated.resources.error_serialization
-import kbwallet.composeapp.generated.resources.error_too_many_requests
-import kbwallet.composeapp.generated.resources.error_unknown
+import kblearning.composeapp.generated.resources.Res
+import kblearning.composeapp.generated.resources.error_disk_full
+import kblearning.composeapp.generated.resources.error_insufficient_balance
+import kblearning.composeapp.generated.resources.error_no_internet
+import kblearning.composeapp.generated.resources.error_request_timeout
+import kblearning.composeapp.generated.resources.error_serialization
+import kblearning.composeapp.generated.resources.error_too_many_requests
+import kblearning.composeapp.generated.resources.error_unknown
 import dev.kbwallet.app.core.domain.DataError
-import kbwallet.composeapp.generated.resources.Res
 import org.jetbrains.compose.resources.StringResource
 
 fun DataError.toUiText(): StringResource {

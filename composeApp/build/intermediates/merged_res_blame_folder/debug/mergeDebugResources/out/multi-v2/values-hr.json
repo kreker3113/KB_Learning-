@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "dev.kbwallet.app.composeApp-mergeDebugResources-63:/values-hr/values-hr.xml",
+            "outputFile": "dev.kbwallet.app.composeApp-mergeDebugResources-64:/values-hr/values-hr.xml",
             "map": [
                 {
                     "source": "/home/quartz/.gradle/caches/8.9/transforms/87a14061171e0a74a1167614c0c97fa8/transformed/biometric-1.4.0-alpha02/res/values-hr/values-hr.xml",
