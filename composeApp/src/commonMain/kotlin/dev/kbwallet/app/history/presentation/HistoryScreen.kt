@@ -141,8 +141,30 @@ private fun HistoryContent(state: HistoryState) {
                 }
             }
         } else {
-            items(state.transactions) { transaction ->
-                TransactionItem(transaction = transaction)
+            items(
+                state.transactions,
+                key = { it.id }
+            ) { transaction ->
+                Column {
+                    TransactionItem(transaction = transaction)
+                    if (transaction.notes.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "📝 ${transaction.notes}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.Gray,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                        if (transaction.tags.isNotEmpty()) {
+                            Text(
+                                text = transaction.tags.split(",").joinToString(" ") { "#$it" },
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                        }
+                    }
+                }
             }
         }
     }

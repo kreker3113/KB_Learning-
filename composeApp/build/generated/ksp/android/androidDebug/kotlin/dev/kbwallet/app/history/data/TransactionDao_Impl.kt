@@ -31,7 +31,7 @@ public class TransactionDao_Impl(
     this.__db = __db
     this.__insertAdapterOfTransactionEntity = object : EntityInsertAdapter<TransactionEntity>() {
       protected override fun createQuery(): String =
-          "INSERT OR ABORT INTO `TransactionEntity` (`id`,`coinId`,`coinName`,`coinSymbol`,`type`,`amountInFiat`,`amountInUnit`,`pricePerUnit`,`timestamp`,`status`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?)"
+          "INSERT OR ABORT INTO `TransactionEntity` (`id`,`coinId`,`coinName`,`coinSymbol`,`type`,`amountInFiat`,`amountInUnit`,`pricePerUnit`,`timestamp`,`status`,`notes`,`tags`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?)"
 
       protected override fun bind(statement: SQLiteStatement, entity: TransactionEntity) {
         statement.bindLong(1, entity.id)
@@ -44,6 +44,8 @@ public class TransactionDao_Impl(
         statement.bindDouble(8, entity.pricePerUnit)
         statement.bindLong(9, entity.timestamp)
         statement.bindText(10, entity.status)
+        statement.bindText(11, entity.notes)
+        statement.bindText(12, entity.tags)
       }
     }
   }
@@ -68,6 +70,8 @@ public class TransactionDao_Impl(
         val _cursorIndexOfPricePerUnit: Int = getColumnIndexOrThrow(_stmt, "pricePerUnit")
         val _cursorIndexOfTimestamp: Int = getColumnIndexOrThrow(_stmt, "timestamp")
         val _cursorIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _cursorIndexOfNotes: Int = getColumnIndexOrThrow(_stmt, "notes")
+        val _cursorIndexOfTags: Int = getColumnIndexOrThrow(_stmt, "tags")
         val _result: MutableList<TransactionEntity> = mutableListOf()
         while (_stmt.step()) {
           val _item: TransactionEntity
@@ -91,8 +95,12 @@ public class TransactionDao_Impl(
           _tmpTimestamp = _stmt.getLong(_cursorIndexOfTimestamp)
           val _tmpStatus: String
           _tmpStatus = _stmt.getText(_cursorIndexOfStatus)
+          val _tmpNotes: String
+          _tmpNotes = _stmt.getText(_cursorIndexOfNotes)
+          val _tmpTags: String
+          _tmpTags = _stmt.getText(_cursorIndexOfTags)
           _item =
-              TransactionEntity(_tmpId,_tmpCoinId,_tmpCoinName,_tmpCoinSymbol,_tmpType,_tmpAmountInFiat,_tmpAmountInUnit,_tmpPricePerUnit,_tmpTimestamp,_tmpStatus)
+              TransactionEntity(_tmpId,_tmpCoinId,_tmpCoinName,_tmpCoinSymbol,_tmpType,_tmpAmountInFiat,_tmpAmountInUnit,_tmpPricePerUnit,_tmpTimestamp,_tmpStatus,_tmpNotes,_tmpTags)
           _result.add(_item)
         }
         _result
@@ -156,6 +164,28 @@ public class TransactionDao_Impl(
           _result = 0
         }
         _result
+      } finally {
+        _stmt.close()
+      }
+    }
+  }
+
+  public override suspend fun updateNotes(
+    id: Long,
+    notes: String,
+    tags: String,
+  ) {
+    val _sql: String = "UPDATE TransactionEntity SET notes = ?, tags = ? WHERE id = ?"
+    return performSuspending(__db, false, true) { _connection ->
+      val _stmt: SQLiteStatement = _connection.prepare(_sql)
+      try {
+        var _argIndex: Int = 1
+        _stmt.bindText(_argIndex, notes)
+        _argIndex = 2
+        _stmt.bindText(_argIndex, tags)
+        _argIndex = 3
+        _stmt.bindLong(_argIndex, id)
+        _stmt.step()
       } finally {
         _stmt.close()
       }

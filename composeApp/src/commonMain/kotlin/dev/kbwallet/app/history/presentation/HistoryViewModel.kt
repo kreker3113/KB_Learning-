@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.kbwallet.app.core.util.formatCoinUnit
 import dev.kbwallet.app.core.util.formatFiat
+import dev.kbwallet.app.history.data.TransactionDao
 import dev.kbwallet.app.portfolio.domain.PortfolioRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -59,6 +60,8 @@ class HistoryViewModel(
                         formattedDate = dateStr,
                         formattedTime = timeStr,
                         status = entity.status,
+                        notes = entity.notes,
+                        tags = entity.tags,
                     )
                 }
 
@@ -73,5 +76,47 @@ class HistoryViewModel(
                 }
             }
         }
+    }
+
+    fun startEditing(transactionId: Long) {
+        val tx = state.value.transactions.find { it.id == transactionId }
+        _state.update {
+            it.copy(
+                editingTransactionId = transactionId,
+                editNotes = tx?.notes ?: "",
+                editTags = tx?.tags ?: "",
+            )
+        }
+    }
+
+    fun onEditNotesChanged(notes: String) {
+        _state.update { it.copy(editNotes = notes) }
+    }
+
+    fun onEditTagsChanged(tags: String) {
+        _state.update { it.copy(editTags = tags) }
+    }
+
+    fun saveJournalEntry() {
+        val id = _state.value.editingTransactionId ?: return
+        val notes = _state.value.editNotes
+        val tags = _state.value.editTags
+        viewModelScope.launch {
+            portfolioRepository.updateTransactionNotes(id, notes, tags)
+            _state.update {
+                it.copy(
+                    editingTransactionId = null,
+                    editNotes = "",
+                    editTags = "",
+                    transactions = it.transactions.map { tx ->
+                        if (tx.id == id) tx.copy(notes = notes, tags = tags) else tx
+                    }
+                )
+            }
+        }
+    }
+
+    fun cancelEditing() {
+        _state.update { it.copy(editingTransactionId = null, editNotes = "", editTags = "") }
     }
 }

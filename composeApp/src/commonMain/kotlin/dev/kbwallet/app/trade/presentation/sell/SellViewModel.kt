@@ -11,8 +11,8 @@ import dev.kbwallet.app.trade.domain.SellCoinUseCase
 import dev.kbwallet.app.trade.presentation.common.TradeState
 import dev.kbwallet.app.trade.presentation.common.UiTradeCoinItem
 import dev.kbwallet.app.trade.presentation.mapper.toCoin
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onStart
@@ -60,6 +60,7 @@ class SellViewModel(
     )
     private val _events = Channel<SellEvents>(capacity = Channel.BUFFERED)
     val events = _events.receiveAsFlow()
+
     fun onAmountChanged(amount: String) {
         _amount.value = amount
         if (_state.value.isAmountInUnits && _state.value.coin != null) {

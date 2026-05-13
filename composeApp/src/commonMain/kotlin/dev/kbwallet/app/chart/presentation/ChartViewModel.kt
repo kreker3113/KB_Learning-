@@ -35,6 +35,10 @@ class ChartViewModel(
         _state.update { it.copy(crosshairIndex = index) }
     }
 
+    fun toggleChartMode() {
+        _state.update { it.copy(isCandlestickMode = !it.isCandlestickMode) }
+    }
+
     private fun loadData(range: TimeRange) {
         _state.update { it.copy(isLoading = true, error = null) }
         viewModelScope.launch {

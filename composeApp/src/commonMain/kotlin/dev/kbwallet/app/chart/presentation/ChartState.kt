@@ -15,4 +15,5 @@ data class ChartState(
     val currentPrice: Double = 0.0,
     val priceChange: Double = 0.0,
     val priceChangePercent: Double = 0.0,
+    val isCandlestickMode: Boolean = false,
 )

@@ -16,4 +16,6 @@ data class TransactionEntity(
     val pricePerUnit: Double,
     val timestamp: Long,
     val status: String = "Completed",
+    val notes: String = "",       // Trading journal notes
+    val tags: String = "",        // Comma-separated tags
 )

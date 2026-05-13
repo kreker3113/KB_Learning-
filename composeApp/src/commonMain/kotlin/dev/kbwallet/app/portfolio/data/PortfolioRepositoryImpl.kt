@@ -7,6 +7,8 @@ import dev.kbwallet.app.core.domain.EmptyResult
 import dev.kbwallet.app.core.domain.Result
 import dev.kbwallet.app.core.domain.onError
 import dev.kbwallet.app.core.domain.onSuccess
+import dev.kbwallet.app.history.data.LimitOrderDao
+import dev.kbwallet.app.history.data.LimitOrderEntity
 import dev.kbwallet.app.history.data.TransactionDao
 import dev.kbwallet.app.history.data.TransactionEntity
 import dev.kbwallet.app.portfolio.data.local.PortfolioDao
@@ -28,6 +30,7 @@ class PortfolioRepositoryImpl(
     private val portfolioDao: PortfolioDao,
     private val userBalanceDao: UserBalanceDao,
     private val transactionDao: TransactionDao,
+    private val limitOrderDao: LimitOrderDao,
     private val coinsRemoteDataSource: CoinsRemoteDataSource,
 ) : PortfolioRepository {
 
@@ -69,7 +72,6 @@ class PortfolioRepositoryImpl(
             emit(Result.Error(DataError.Remote.UNKNOWN))
         }
     }
-
 
     override suspend fun getPortfolioCoin(coinId: String): Result<PortfolioCoinModel?, DataError.Remote> {
         coinsRemoteDataSource.getCoinById(coinId)
@@ -192,5 +194,31 @@ class PortfolioRepositoryImpl(
 
     override suspend fun getTotalSellCount(): Int {
         return transactionDao.getTotalSellCount()
+    }
+
+    override suspend fun updateTransactionNotes(transactionId: Long, notes: String, tags: String) {
+        transactionDao.updateNotes(transactionId, notes, tags)
+    }
+
+    // ── Limit Orders ──
+
+    override suspend fun placeLimitOrder(order: LimitOrderEntity) {
+        limitOrderDao.insert(order)
+    }
+
+    override fun getActiveLimitOrders(): Flow<List<LimitOrderEntity>> {
+        return limitOrderDao.getActiveOrders()
+    }
+
+    override fun getAllLimitOrders(): Flow<List<LimitOrderEntity>> {
+        return limitOrderDao.getAllOrders()
+    }
+
+    override suspend fun cancelLimitOrder(orderId: Long) {
+        limitOrderDao.updateStatus(orderId, "CANCELLED")
+    }
+
+    override suspend fun getActiveLimitOrdersList(): List<LimitOrderEntity> {
+        return limitOrderDao.getActiveOrdersList()
     }
 }

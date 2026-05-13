@@ -44,3 +44,16 @@ object SecuritySettings
 
 @Serializable
 object HelpSupport
+
+// ── Trading Simulator additions ──
+@Serializable
+object Watchlist
+
+@Serializable
+object PnLAnalytics
+
+@Serializable
+object ActiveOrders
+
+@Serializable
+object Simulator

@@ -9,12 +9,16 @@ import androidx.room.util.TableInfo.Companion.read
 import androidx.room.util.dropFtsSyncTriggers
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.execSQL
+import dev.kbwallet.app.history.`data`.LimitOrderDao
+import dev.kbwallet.app.history.`data`.LimitOrderDao_Impl
 import dev.kbwallet.app.history.`data`.TransactionDao
 import dev.kbwallet.app.history.`data`.TransactionDao_Impl
 import dev.kbwallet.app.portfolio.`data`.local.PortfolioDao
 import dev.kbwallet.app.portfolio.`data`.local.PortfolioDao_Impl
 import dev.kbwallet.app.portfolio.`data`.local.UserBalanceDao
 import dev.kbwallet.app.portfolio.`data`.local.UserBalanceDao_Impl
+import dev.kbwallet.app.watchlist.`data`.WatchlistDao
+import dev.kbwallet.app.watchlist.`data`.WatchlistDao_Impl
 import javax.`annotation`.processing.Generated
 import kotlin.Lazy
 import kotlin.String
@@ -48,21 +52,35 @@ public class PortfolioDatabase_Impl : PortfolioDatabase() {
   }
 
 
+  private val _limitOrderDao: Lazy<LimitOrderDao> = lazy {
+    LimitOrderDao_Impl(this)
+  }
+
+
+  private val _watchlistDao: Lazy<WatchlistDao> = lazy {
+    WatchlistDao_Impl(this)
+  }
+
+
   protected override fun createOpenDelegate(): RoomOpenDelegate {
-    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(4,
-        "9f008f23344d18bb838b55899dca1ff1", "4a661aa16b89fd88a631c5a7f8ed81c2") {
+    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(7,
+        "da4654599407371404ab0fbfce5f98f2", "1131301d53736f7175756cfb4fbbb510") {
       public override fun createAllTables(connection: SQLiteConnection) {
         connection.execSQL("CREATE TABLE IF NOT EXISTS `PortfolioCoinEntity` (`coinId` TEXT NOT NULL, `name` TEXT NOT NULL, `symbol` TEXT NOT NULL, `iconUrl` TEXT NOT NULL, `averagePurchasePrice` REAL NOT NULL, `amountOwned` REAL NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY(`coinId`))")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `UserBalanceEntity` (`id` INTEGER NOT NULL, `cashBalance` REAL NOT NULL, PRIMARY KEY(`id`))")
-        connection.execSQL("CREATE TABLE IF NOT EXISTS `TransactionEntity` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `coinId` TEXT NOT NULL, `coinName` TEXT NOT NULL, `coinSymbol` TEXT NOT NULL, `type` TEXT NOT NULL, `amountInFiat` REAL NOT NULL, `amountInUnit` REAL NOT NULL, `pricePerUnit` REAL NOT NULL, `timestamp` INTEGER NOT NULL, `status` TEXT NOT NULL)")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `TransactionEntity` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `coinId` TEXT NOT NULL, `coinName` TEXT NOT NULL, `coinSymbol` TEXT NOT NULL, `type` TEXT NOT NULL, `amountInFiat` REAL NOT NULL, `amountInUnit` REAL NOT NULL, `pricePerUnit` REAL NOT NULL, `timestamp` INTEGER NOT NULL, `status` TEXT NOT NULL, `notes` TEXT NOT NULL, `tags` TEXT NOT NULL)")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `LimitOrderEntity` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `coinId` TEXT NOT NULL, `coinName` TEXT NOT NULL, `coinSymbol` TEXT NOT NULL, `iconUrl` TEXT NOT NULL, `type` TEXT NOT NULL, `side` TEXT NOT NULL, `targetPrice` REAL NOT NULL, `amountInFiat` REAL NOT NULL, `amountInUnit` REAL NOT NULL, `status` TEXT NOT NULL, `createdAt` INTEGER NOT NULL)")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `WatchlistEntity` (`coinId` TEXT NOT NULL, `coinName` TEXT NOT NULL, `coinSymbol` TEXT NOT NULL, `iconUrl` TEXT NOT NULL, `addedPrice` REAL NOT NULL, `addedAt` INTEGER NOT NULL, PRIMARY KEY(`coinId`))")
         connection.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)")
-        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9f008f23344d18bb838b55899dca1ff1')")
+        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'da4654599407371404ab0fbfce5f98f2')")
       }
 
       public override fun dropAllTables(connection: SQLiteConnection) {
         connection.execSQL("DROP TABLE IF EXISTS `PortfolioCoinEntity`")
         connection.execSQL("DROP TABLE IF EXISTS `UserBalanceEntity`")
         connection.execSQL("DROP TABLE IF EXISTS `TransactionEntity`")
+        connection.execSQL("DROP TABLE IF EXISTS `LimitOrderEntity`")
+        connection.execSQL("DROP TABLE IF EXISTS `WatchlistEntity`")
       }
 
       public override fun onCreate(connection: SQLiteConnection) {
@@ -152,6 +170,10 @@ public class PortfolioDatabase_Impl : PortfolioDatabase() {
             null, TableInfo.CREATED_FROM_ENTITY))
         _columnsTransactionEntity.put("status", TableInfo.Column("status", "TEXT", true, 0, null,
             TableInfo.CREATED_FROM_ENTITY))
+        _columnsTransactionEntity.put("notes", TableInfo.Column("notes", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsTransactionEntity.put("tags", TableInfo.Column("tags", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
         val _foreignKeysTransactionEntity: MutableSet<TableInfo.ForeignKey> = mutableSetOf()
         val _indicesTransactionEntity: MutableSet<TableInfo.Index> = mutableSetOf()
         val _infoTransactionEntity: TableInfo = TableInfo("TransactionEntity",
@@ -166,6 +188,72 @@ public class PortfolioDatabase_Impl : PortfolioDatabase() {
               | Found:
               |""".trimMargin() + _existingTransactionEntity)
         }
+        val _columnsLimitOrderEntity: MutableMap<String, TableInfo.Column> = mutableMapOf()
+        _columnsLimitOrderEntity.put("id", TableInfo.Column("id", "INTEGER", true, 1, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsLimitOrderEntity.put("coinId", TableInfo.Column("coinId", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsLimitOrderEntity.put("coinName", TableInfo.Column("coinName", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsLimitOrderEntity.put("coinSymbol", TableInfo.Column("coinSymbol", "TEXT", true, 0,
+            null, TableInfo.CREATED_FROM_ENTITY))
+        _columnsLimitOrderEntity.put("iconUrl", TableInfo.Column("iconUrl", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsLimitOrderEntity.put("type", TableInfo.Column("type", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsLimitOrderEntity.put("side", TableInfo.Column("side", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsLimitOrderEntity.put("targetPrice", TableInfo.Column("targetPrice", "REAL", true, 0,
+            null, TableInfo.CREATED_FROM_ENTITY))
+        _columnsLimitOrderEntity.put("amountInFiat", TableInfo.Column("amountInFiat", "REAL", true,
+            0, null, TableInfo.CREATED_FROM_ENTITY))
+        _columnsLimitOrderEntity.put("amountInUnit", TableInfo.Column("amountInUnit", "REAL", true,
+            0, null, TableInfo.CREATED_FROM_ENTITY))
+        _columnsLimitOrderEntity.put("status", TableInfo.Column("status", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsLimitOrderEntity.put("createdAt", TableInfo.Column("createdAt", "INTEGER", true, 0,
+            null, TableInfo.CREATED_FROM_ENTITY))
+        val _foreignKeysLimitOrderEntity: MutableSet<TableInfo.ForeignKey> = mutableSetOf()
+        val _indicesLimitOrderEntity: MutableSet<TableInfo.Index> = mutableSetOf()
+        val _infoLimitOrderEntity: TableInfo = TableInfo("LimitOrderEntity",
+            _columnsLimitOrderEntity, _foreignKeysLimitOrderEntity, _indicesLimitOrderEntity)
+        val _existingLimitOrderEntity: TableInfo = read(connection, "LimitOrderEntity")
+        if (!_infoLimitOrderEntity.equals(_existingLimitOrderEntity)) {
+          return RoomOpenDelegate.ValidationResult(false, """
+              |LimitOrderEntity(dev.kbwallet.app.history.data.LimitOrderEntity).
+              | Expected:
+              |""".trimMargin() + _infoLimitOrderEntity + """
+              |
+              | Found:
+              |""".trimMargin() + _existingLimitOrderEntity)
+        }
+        val _columnsWatchlistEntity: MutableMap<String, TableInfo.Column> = mutableMapOf()
+        _columnsWatchlistEntity.put("coinId", TableInfo.Column("coinId", "TEXT", true, 1, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsWatchlistEntity.put("coinName", TableInfo.Column("coinName", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsWatchlistEntity.put("coinSymbol", TableInfo.Column("coinSymbol", "TEXT", true, 0,
+            null, TableInfo.CREATED_FROM_ENTITY))
+        _columnsWatchlistEntity.put("iconUrl", TableInfo.Column("iconUrl", "TEXT", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsWatchlistEntity.put("addedPrice", TableInfo.Column("addedPrice", "REAL", true, 0,
+            null, TableInfo.CREATED_FROM_ENTITY))
+        _columnsWatchlistEntity.put("addedAt", TableInfo.Column("addedAt", "INTEGER", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        val _foreignKeysWatchlistEntity: MutableSet<TableInfo.ForeignKey> = mutableSetOf()
+        val _indicesWatchlistEntity: MutableSet<TableInfo.Index> = mutableSetOf()
+        val _infoWatchlistEntity: TableInfo = TableInfo("WatchlistEntity", _columnsWatchlistEntity,
+            _foreignKeysWatchlistEntity, _indicesWatchlistEntity)
+        val _existingWatchlistEntity: TableInfo = read(connection, "WatchlistEntity")
+        if (!_infoWatchlistEntity.equals(_existingWatchlistEntity)) {
+          return RoomOpenDelegate.ValidationResult(false, """
+              |WatchlistEntity(dev.kbwallet.app.watchlist.data.WatchlistEntity).
+              | Expected:
+              |""".trimMargin() + _infoWatchlistEntity + """
+              |
+              | Found:
+              |""".trimMargin() + _existingWatchlistEntity)
+        }
         return RoomOpenDelegate.ValidationResult(true, null)
       }
     }
@@ -176,11 +264,12 @@ public class PortfolioDatabase_Impl : PortfolioDatabase() {
     val _shadowTablesMap: MutableMap<String, String> = mutableMapOf()
     val _viewTables: MutableMap<String, Set<String>> = mutableMapOf()
     return InvalidationTracker(this, _shadowTablesMap, _viewTables, "PortfolioCoinEntity",
-        "UserBalanceEntity", "TransactionEntity")
+        "UserBalanceEntity", "TransactionEntity", "LimitOrderEntity", "WatchlistEntity")
   }
 
   public override fun clearAllTables() {
-    super.performClear(false, "PortfolioCoinEntity", "UserBalanceEntity", "TransactionEntity")
+    super.performClear(false, "PortfolioCoinEntity", "UserBalanceEntity", "TransactionEntity",
+        "LimitOrderEntity", "WatchlistEntity")
   }
 
   protected override fun getRequiredTypeConverterClasses(): Map<KClass<*>, List<KClass<*>>> {
@@ -188,6 +277,8 @@ public class PortfolioDatabase_Impl : PortfolioDatabase() {
     _typeConvertersMap.put(PortfolioDao::class, PortfolioDao_Impl.getRequiredConverters())
     _typeConvertersMap.put(UserBalanceDao::class, UserBalanceDao_Impl.getRequiredConverters())
     _typeConvertersMap.put(TransactionDao::class, TransactionDao_Impl.getRequiredConverters())
+    _typeConvertersMap.put(LimitOrderDao::class, LimitOrderDao_Impl.getRequiredConverters())
+    _typeConvertersMap.put(WatchlistDao::class, WatchlistDao_Impl.getRequiredConverters())
     return _typeConvertersMap
   }
 
@@ -208,4 +299,8 @@ public class PortfolioDatabase_Impl : PortfolioDatabase() {
   public override fun userBalanceDao(): UserBalanceDao = _userBalanceDao.value
 
   public override fun transactionDao(): TransactionDao = _transactionDao.value
+
+  public override fun limitOrderDao(): LimitOrderDao = _limitOrderDao.value
+
+  public override fun watchlistDao(): WatchlistDao = _watchlistDao.value
 }

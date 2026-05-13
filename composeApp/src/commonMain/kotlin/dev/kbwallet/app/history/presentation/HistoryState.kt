@@ -6,6 +6,9 @@ data class HistoryState(
     val totalTrades: Int = 0,
     val totalBuy: Int = 0,
     val totalSell: Int = 0,
+    val editingTransactionId: Long? = null,
+    val editNotes: String = "",
+    val editTags: String = "",
 )
 
 data class TransactionUiModel(
@@ -23,4 +26,6 @@ data class TransactionUiModel(
     val formattedDate: String,
     val formattedTime: String,
     val status: String,
+    val notes: String = "",
+    val tags: String = "",
 )

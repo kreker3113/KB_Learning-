@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -46,6 +47,7 @@ fun ProfileScreen(
     onNavigateToNotifications: () -> Unit,
     onNavigateToSecurity: () -> Unit,
     onNavigateToHelp: () -> Unit,
+    onNavigateToPnL: () -> Unit = {},
 ) {
     val viewModel = koinViewModel<ProfileViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -163,6 +165,14 @@ fun ProfileScreen(
                 title = "Security & Privacy",
                 subtitle = "Protect your account",
                 onClick = onNavigateToSecurity,
+            )
+        }
+        item {
+            ProfileMenuOption(
+                icon = Icons.Default.TrendingUp,
+                title = "P&L Analytics",
+                subtitle = "View your trading performance",
+                onClick = onNavigateToPnL,
             )
         }
         item {

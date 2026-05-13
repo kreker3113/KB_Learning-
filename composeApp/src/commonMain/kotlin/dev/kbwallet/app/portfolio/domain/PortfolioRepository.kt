@@ -3,6 +3,7 @@ package dev.kbwallet.app.portfolio.domain
 import dev.kbwallet.app.core.domain.DataError
 import dev.kbwallet.app.core.domain.EmptyResult
 import dev.kbwallet.app.core.domain.Result
+import dev.kbwallet.app.history.data.LimitOrderEntity
 import dev.kbwallet.app.history.data.TransactionEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -33,4 +34,12 @@ interface PortfolioRepository {
     suspend fun getTotalTradeCount(): Int
     suspend fun getTotalBuyCount(): Int
     suspend fun getTotalSellCount(): Int
+    suspend fun updateTransactionNotes(transactionId: Long, notes: String, tags: String)
+
+    // ── Limit Orders ──
+    suspend fun placeLimitOrder(order: LimitOrderEntity)
+    fun getActiveLimitOrders(): Flow<List<LimitOrderEntity>>
+    fun getAllLimitOrders(): Flow<List<LimitOrderEntity>>
+    suspend fun cancelLimitOrder(orderId: Long)
+    suspend fun getActiveLimitOrdersList(): List<LimitOrderEntity>
 }

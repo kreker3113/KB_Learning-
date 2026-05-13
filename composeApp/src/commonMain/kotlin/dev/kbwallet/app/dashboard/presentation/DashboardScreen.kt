@@ -16,8 +16,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,6 +41,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun DashboardScreen(
     onDiscoverCoinsClicked: () -> Unit,
     onCoinItemClicked: (String) -> Unit,
+    onSimulatorClicked: () -> Unit = {},
 ) {
     val viewModel = koinViewModel<DashboardViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -57,6 +61,7 @@ fun DashboardScreen(
             state = state,
             onDiscoverCoinsClicked = onDiscoverCoinsClicked,
             onCoinItemClicked = onCoinItemClicked,
+            onSimulatorClicked = onSimulatorClicked,
         )
     }
 }
@@ -66,6 +71,7 @@ private fun DashboardContent(
     state: DashboardState,
     onDiscoverCoinsClicked: () -> Unit,
     onCoinItemClicked: (String) -> Unit,
+    onSimulatorClicked: () -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier
@@ -76,12 +82,23 @@ private fun DashboardContent(
     ) {
         // ── Header ──
         item {
-            Text(
-                text = "Dashboard",
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = "Dashboard",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.weight(1f),
+                )
+                Button(
+                    onClick = onSimulatorClicked,
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                    shape = RoundedCornerShape(12.dp),
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
+                ) {
+                    Text("Simulator", fontSize = 12.sp)
+                }
+            }
         }
 
         // ── Stats Row ──

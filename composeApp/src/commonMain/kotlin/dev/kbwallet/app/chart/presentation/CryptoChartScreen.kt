@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -29,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import dev.kbwallet.app.chart.presentation.component.CandlestickChart
 import dev.kbwallet.app.chart.presentation.component.ChartGrid
 import dev.kbwallet.app.chart.presentation.component.LineChart
 import dev.kbwallet.app.chart.presentation.component.TimeRangeSelector
@@ -102,11 +105,33 @@ fun CryptoChartScreen(
 
         Spacer(Modifier.padding(vertical = 4.dp))
 
-        // ── Time range selector ──
-        TimeRangeSelector(
-            selected = state.selectedRange,
-            onSelect = { viewModel.selectTimeRange(it) },
-        )
+        // ── Time range selector + Chart mode toggle ──
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            TimeRangeSelector(
+                selected = state.selectedRange,
+                onSelect = { viewModel.selectTimeRange(it) },
+                modifier = Modifier.weight(1f),
+            )
+
+            // Candlestick / Line toggle
+            FilterChip(
+                selected = state.isCandlestickMode,
+                onClick = { viewModel.toggleChartMode() },
+                label = {
+                    Text(
+                        text = if (state.isCandlestickMode) "Candles" else "Line",
+                        fontSize = 11.sp,
+                    )
+                },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = trendColor.copy(alpha = 0.2f),
+                    selectedLabelColor = trendColor,
+                ),
+            )
+        }
 
         Spacer(Modifier.padding(vertical = 6.dp))
 
@@ -124,7 +149,17 @@ fun CryptoChartScreen(
                 )
             } else if (state.candles.isNotEmpty()) {
                 ChartGrid(transform = transform)
-                LineChart(transform = transform, lineColor = trendColor)
+
+                if (state.isCandlestickMode) {
+                    CandlestickChart(
+                        transform = transform,
+                        bullColor = trendColor,
+                        bearColor = DarkLossRedColor,
+                        onCrosshair = { viewModel.onCrosshair(it) },
+                    )
+                } else {
+                    LineChart(transform = transform, lineColor = trendColor)
+                }
 
                 // Price labels on right edge
                 PriceLabels(

@@ -22,4 +22,7 @@ interface TransactionDao {
 
     @Query("SELECT COUNT(*) FROM TransactionEntity WHERE type = 'SELL'")
     suspend fun getTotalSellCount(): Int
+
+    @Query("UPDATE TransactionEntity SET notes = :notes, tags = :tags WHERE id = :id")
+    suspend fun updateNotes(id: Long, notes: String, tags: String)
 }
