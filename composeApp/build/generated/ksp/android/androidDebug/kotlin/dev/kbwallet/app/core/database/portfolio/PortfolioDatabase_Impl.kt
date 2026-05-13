@@ -49,7 +49,7 @@ public class PortfolioDatabase_Impl : PortfolioDatabase() {
 
 
   protected override fun createOpenDelegate(): RoomOpenDelegate {
-    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(3,
+    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(4,
         "9f008f23344d18bb838b55899dca1ff1", "4a661aa16b89fd88a631c5a7f8ed81c2") {
       public override fun createAllTables(connection: SQLiteConnection) {
         connection.execSQL("CREATE TABLE IF NOT EXISTS `PortfolioCoinEntity` (`coinId` TEXT NOT NULL, `name` TEXT NOT NULL, `symbol` TEXT NOT NULL, `iconUrl` TEXT NOT NULL, `averagePurchasePrice` REAL NOT NULL, `amountOwned` REAL NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY(`coinId`))")

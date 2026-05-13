@@ -62,6 +62,39 @@ class SellViewModel(
     val events = _events.receiveAsFlow()
     fun onAmountChanged(amount: String) {
         _amount.value = amount
+        if (_state.value.isAmountInUnits && _state.value.coin != null) {
+            val num = amount.toDoubleOrNull()
+            _state.update {
+                it.copy(
+                    fiatEquivalent = if (num != null) "≈ ${formatFiat(num * it.coin!!.price)}"
+                    else ""
+                )
+            }
+        }
+    }
+
+    fun onToggleMode() {
+        val currentCoin = _state.value.coin ?: return
+        _state.update { it.copy(isAmountInUnits = !it.isAmountInUnits, fiatEquivalent = "") }
+        _amount.value = ""
+        viewModelScope.launch {
+            when (val portfolioCoinResponse = portfolioRepository.getPortfolioCoin(coinId)) {
+                is Result.Success -> {
+                    val owned = portfolioCoinResponse.data?.ownedAmountInUnit ?: 0.0
+                    val ownedFiat = (owned * currentCoin.price)
+                    if (_state.value.isAmountInUnits) {
+                        _state.update {
+                            it.copy(availableAmount = "Available: ${formatFiat(owned, showDecimal = false)} ${currentCoin.symbol}")
+                        }
+                    } else {
+                        _state.update {
+                            it.copy(availableAmount = "Available: ${formatFiat(ownedFiat)}")
+                        }
+                    }
+                }
+                is Result.Error -> {}
+            }
+        }
     }
 
     private suspend fun getCoinDetails(ownedAmountInUnit: Double) {
@@ -99,9 +132,10 @@ class SellViewModel(
             return
         }
         viewModelScope.launch {
+            val fiatAmount = if (_state.value.isAmountInUnits) amount * tradeCoin.price else amount
             val sellCoinResponse = sellCoinUseCase.sellCoin(
                 coin = tradeCoin.toCoin(),
-                amountInFiat = amount,
+                amountInFiat = fiatAmount,
                 price = tradeCoin.price
             )
             when (sellCoinResponse) {

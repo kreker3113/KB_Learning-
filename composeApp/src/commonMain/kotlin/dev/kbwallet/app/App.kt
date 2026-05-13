@@ -33,6 +33,7 @@ import dev.kbwallet.app.core.biometric.BiometricScreen
 import dev.kbwallet.app.core.navigation.Biometric
 import dev.kbwallet.app.core.navigation.Buy
 import dev.kbwallet.app.core.navigation.Coins
+import dev.kbwallet.app.core.navigation.CryptoChart
 import dev.kbwallet.app.core.navigation.Dashboard
 import dev.kbwallet.app.core.navigation.EditProfile
 import dev.kbwallet.app.core.navigation.HelpSupport
@@ -53,6 +54,7 @@ import dev.kbwallet.app.profile.presentation.SecuritySettingsScreen
 import dev.kbwallet.app.theme.KBLearningTheme
 import dev.kbwallet.app.trade.presentation.buy.BuyScreen
 import dev.kbwallet.app.trade.presentation.sell.SellScreen
+import dev.kbwallet.app.chart.presentation.CryptoChartScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 // ── Bottom navigation tab definition ──
@@ -109,9 +111,14 @@ fun App() {
 
             // ── Secondary screens (no bottom bar) ──
             composable<Coins> {
-                CoinListScreen { coinId ->
-                    navController.navigate(Buy(coinId))
-                }
+                CoinListScreen(
+                    onCoinClicked = { coinId ->
+                        navController.navigate(Buy(coinId))
+                    },
+                    onChartRequested = { coinId, coinName ->
+                        navController.navigate(CryptoChart(coinId, coinName))
+                    },
+                )
             }
             composable<Buy> { navBackStackEntry ->
                 val coinId: String = navBackStackEntry.toRoute<Buy>().coinId
@@ -133,6 +140,14 @@ fun App() {
                             popUpTo(Portfolio) { inclusive = true }
                         }
                     }
+                )
+            }
+            composable<CryptoChart> { navBackStackEntry ->
+                val route = navBackStackEntry.toRoute<CryptoChart>()
+                CryptoChartScreen(
+                    coinId = route.coinId,
+                    coinName = route.coinName,
+                    onBack = { navController.popBackStack() },
                 )
             }
 

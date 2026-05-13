@@ -5,6 +5,7 @@ data class DashboardState(
     val portfolioValue: String = "$0",
     val coinCount: Int = 0,
     val recentPerformance: String = "+0%",
+    val isPerformancePositive: Boolean = true,
     val topCoins: List<DashboardCoinItem> = emptyList(),
     val portfolioSummaryCoins: List<DashboardCoinItem> = emptyList(),
 )

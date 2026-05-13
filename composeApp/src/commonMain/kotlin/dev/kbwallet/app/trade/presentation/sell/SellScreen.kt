@@ -40,6 +40,7 @@ fun SellScreen(
         state = state,
         tradeType = TradeType.SELL,
         onAmountChange = viewModel::onAmountChanged,
-        onSubmitClicked = viewModel::onSellClicked
+        onSubmitClicked = viewModel::onSellClicked,
+        onToggleMode = viewModel::onToggleMode,
     )
 }

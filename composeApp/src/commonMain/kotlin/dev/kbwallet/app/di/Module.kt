@@ -26,6 +26,7 @@ import dev.kbwallet.app.dashboard.presentation.DashboardViewModel
 import dev.kbwallet.app.history.presentation.HistoryViewModel
 import dev.kbwallet.app.portfolio.presentation.PortfolioViewModel
 import dev.kbwallet.app.profile.presentation.ProfileViewModel
+import dev.kbwallet.app.chart.di.chartModule
 import dev.kbwallet.app.trade.domain.BuyCoinUseCase
 import dev.kbwallet.app.trade.domain.SellCoinUseCase
 
@@ -77,4 +78,7 @@ val sharedModule = module {
 
     // profile
     viewModel { ProfileViewModel(get()) }
+
+    // chart
+    includes(chartModule)
 }

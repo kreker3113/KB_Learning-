@@ -39,6 +39,7 @@ fun BuyScreen(
         state = state,
         tradeType = TradeType.BUY,
         onAmountChange = viewModel::onAmountChanged,
-        onSubmitClicked = viewModel::onBuyClicked
+        onSubmitClicked = viewModel::onBuyClicked,
+        onToggleMode = viewModel::onToggleMode,
     )
 }

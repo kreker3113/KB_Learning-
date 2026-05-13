@@ -23,12 +23,15 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -52,6 +55,7 @@ fun TradeScreen(
     tradeType: TradeType,
     onAmountChange: (String) -> Unit,
     onSubmitClicked: () -> Unit,
+    onToggleMode: () -> Unit,
 ) {
     val accentColor = when (tradeType) {
         TradeType.BUY -> MaterialTheme.colorScheme.primary
@@ -97,16 +101,48 @@ fun TradeScreen(
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.testTag("trade_screen_coin_name"),
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // ── Mode Toggle (Fiat / Coin) ──
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    text = "$",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = if (!state.isAmountInUnits) FontWeight.Bold else FontWeight.Normal,
+                    color = if (!state.isAmountInUnits) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Switch(
+                    checked = state.isAmountInUnits,
+                    onCheckedChange = { onToggleMode() },
+                    colors = SwitchDefaults.colors(
+                        checkedTrackColor = MaterialTheme.colorScheme.primary,
+                    ),
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                )
+                Text(
+                    text = state.coin?.symbol ?: "Coin",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = if (state.isAmountInUnits) FontWeight.Bold else FontWeight.Normal,
+                    color = if (state.isAmountInUnits) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             // ── Title ──
             Text(
                 text = when (tradeType) {
-                    TradeType.BUY -> "Buy Amount"
-                    TradeType.SELL -> "Sell Amount"
+                    TradeType.BUY -> if (state.isAmountInUnits) "Coin Amount" else "Buy Amount"
+                    TradeType.SELL -> if (state.isAmountInUnits) "Coin Amount" else "Sell Amount"
                 },
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Gray,
@@ -117,6 +153,16 @@ fun TradeScreen(
                 amountText = state.amount,
                 onAmountChange = onAmountChange
             )
+
+            // ── Fiat equivalent (when in coin mode) ──
+            if (state.isAmountInUnits && state.fiatEquivalent.isNotEmpty()) {
+                Text(
+                    text = state.fiatEquivalent,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(top = 4.dp),
+                )
+            }
 
             // ── Available Balance ──
             Text(
@@ -132,7 +178,7 @@ fun TradeScreen(
                     text = stringResource(state.error),
                     style = MaterialTheme.typography.labelLarge,
                     color = LocalKBLearningColorsPalette.current.lossRed,
-                    modifier = Modifier.padding(4.dp)
+                    modifier = Modifier.padding(4.dp).testTag("trade_error")
                 )
             }
         }
@@ -181,9 +227,22 @@ fun CenteredDollarTextField(
     BasicTextField(
         value = displayText,
         onValueChange = { newValue ->
-            val trimmed = newValue.trimStart('0').trim { it.isDigit().not() }
-            if (trimmed.isEmpty() || (trimmed.toLongOrNull() ?: Long.MAX_VALUE) <= 10000L) {
-                onAmountChange(trimmed)
+            val cleaned = newValue.filter { it.isDigit() || it == '.' }
+                .let { str ->
+                    val dotIndex = str.indexOf('.')
+                    if (dotIndex >= 0) {
+                        str.take(dotIndex + 1) + str.drop(dotIndex + 1).filter { it.isDigit() }
+                    } else str
+                }
+
+            if (cleaned.isEmpty()) {
+                onAmountChange("")
+                return@BasicTextField
+            }
+
+            val num = cleaned.toDoubleOrNull() ?: return@BasicTextField
+            if (num in 0.0..10000.0) {
+                onAmountChange(cleaned)
             }
         },
         modifier = modifier

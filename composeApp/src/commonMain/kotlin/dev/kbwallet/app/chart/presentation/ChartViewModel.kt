@@ -1,0 +1,65 @@
+package dev.kbwallet.app.chart.presentation
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dev.kbwallet.app.chart.domain.GetChartDataUseCase
+import dev.kbwallet.app.chart.domain.model.TimeRange
+import dev.kbwallet.app.core.domain.Result
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+
+class ChartViewModel(
+    private val getChartDataUseCase: GetChartDataUseCase,
+) : ViewModel() {
+
+    private val _state = MutableStateFlow(ChartState())
+    val state: StateFlow<ChartState> = _state.asStateFlow()
+
+    private var currentCoinId: String = ""
+
+    fun init(coinId: String, coinName: String) {
+        currentCoinId = coinId
+        _state.update { it.copy(coinName = coinName) }
+        loadData(TimeRange.ONE_DAY)
+    }
+
+    fun selectTimeRange(range: TimeRange) {
+        _state.update { it.copy(selectedRange = range) }
+        loadData(range)
+    }
+
+    fun onCrosshair(index: Int?) {
+        _state.update { it.copy(crosshairIndex = index) }
+    }
+
+    private fun loadData(range: TimeRange) {
+        _state.update { it.copy(isLoading = true, error = null) }
+        viewModelScope.launch {
+            when (val result = getChartDataUseCase.execute(currentCoinId, range)) {
+                is Result.Success -> {
+                    val candles = result.data.sortedBy { it.openTime }
+                    val first = candles.firstOrNull()
+                    val last = candles.lastOrNull()
+                    val change = if (first != null && last != null) last.close - first.close else 0.0
+                    val changePct = if (first != null && first.close != 0.0) (change / first.close) * 100 else 0.0
+                    _state.update {
+                        it.copy(
+                            candles = candles,
+                            isLoading = false,
+                            currentPrice = last?.close ?: 0.0,
+                            priceChange = change,
+                            priceChangePercent = changePct,
+                            crosshairIndex = null,
+                        )
+                    }
+                }
+                is Result.Error -> {
+                    _state.update { it.copy(isLoading = false, error = "No data") }
+                }
+            }
+        }
+    }
+}

@@ -18,10 +18,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,13 +31,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import dev.kbwallet.app.coins.presentation.component.PerformanceChart
 import dev.kbwallet.app.theme.LocalKBLearningColorsPalette
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun CoinListScreen(
     onCoinClicked: (String) -> Unit,
+    onChartRequested: (String, String) -> Unit,
 ) {
     val coinsListViewModel = koinViewModel<CoinsListViewModel>()
     val state by coinsListViewModel.state.collectAsStateWithLifecycle()
@@ -63,21 +59,12 @@ fun CoinListScreen(
             )
         }
 
-        // ── Chart Dialog ──
-        val chartState = state.chartState
-        if (chartState != null) {
-            item {
-                CoinChartDialog(
-                    uiChartState = chartState,
-                    onDismiss = { coinsListViewModel.onDismissChart() },
-                )
-            }
-        }
-
         items(state.coins) { coin ->
             CoinListItem(
                 coin = coin,
-                onCoinLongPressed = { coinsListViewModel.onCoinLongPressed(it) },
+                onCoinLongPressed = { coinId ->
+                    onChartRequested(coinId, coin.name)
+                },
                 onCoinClicked = onCoinClicked,
             )
         }
@@ -150,55 +137,4 @@ private fun CoinListItem(
             )
         }
     }
-}
-
-@Composable
-private fun CoinChartDialog(
-    uiChartState: UiChartState,
-    onDismiss: () -> Unit,
-) {
-    AlertDialog(
-        modifier = Modifier.fillMaxWidth(),
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = "24h Chart — ${uiChartState.coinName}",
-            )
-        },
-        text = {
-            if (uiChartState.isLoading) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(32.dp),
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                }
-            } else {
-                PerformanceChart(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .padding(16.dp),
-                    nodes = uiChartState.sparkLine,
-                    profitColor = LocalKBLearningColorsPalette.current.profitGreen,
-                    lossColor = LocalKBLearningColorsPalette.current.lossRed,
-                )
-            }
-        },
-        confirmButton = {},
-        dismissButton = {
-            Button(
-                onClick = onDismiss,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                ),
-            ) {
-                Text(text = "Close")
-            }
-        }
-    )
 }

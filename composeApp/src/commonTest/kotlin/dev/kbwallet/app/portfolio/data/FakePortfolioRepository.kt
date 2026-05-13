@@ -4,12 +4,14 @@ import dev.kbwallet.app.core.domain.DataError
 import dev.kbwallet.app.core.domain.EmptyResult
 import dev.kbwallet.app.core.domain.Result
 import dev.kbwallet.app.core.domain.coin.Coin
+import dev.kbwallet.app.history.data.TransactionEntity
 import dev.kbwallet.app.portfolio.domain.PortfolioCoinModel
 import dev.kbwallet.app.portfolio.domain.PortfolioRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
@@ -33,7 +35,7 @@ class FakePortfolioRepository : PortfolioRepository {
     }
 
     override suspend fun getPortfolioCoin(coinId: String): Result<PortfolioCoinModel?, DataError.Remote> {
-        return Result.Success(portfolioCoin)
+        return Result.Success(listOfCoins.find { it.coin.id == coinId })
     }
 
     override suspend fun savePortfolioCoin(portfolioCoin: PortfolioCoinModel): EmptyResult<DataError.Local> {
@@ -64,6 +66,26 @@ class FakePortfolioRepository : PortfolioRepository {
     override suspend fun updateCashBalance(newBalance: Double) {
         _cashBalance.value = newBalance
     }
+
+    override suspend fun recordTransaction(
+        coinId: String,
+        coinName: String,
+        coinSymbol: String,
+        type: String,
+        amountInFiat: Double,
+        amountInUnit: Double,
+        pricePerUnit: Double,
+    ) {
+        // no-op
+    }
+
+    override fun getAllTransactions(): Flow<List<TransactionEntity>> {
+        return flowOf(emptyList())
+    }
+
+    override suspend fun getTotalTradeCount(): Int = 0
+    override suspend fun getTotalBuyCount(): Int = 0
+    override suspend fun getTotalSellCount(): Int = 0
 
     fun simulateError() {
         _data.value = Result.Error(DataError.Remote.SERVER)

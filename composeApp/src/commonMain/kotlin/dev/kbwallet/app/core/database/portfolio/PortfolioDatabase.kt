@@ -17,7 +17,7 @@ import dev.kbwallet.app.portfolio.data.local.UserBalanceEntity
         UserBalanceEntity::class,
         TransactionEntity::class,
     ],
-    version = 3
+    version = 4
 )
 abstract class PortfolioDatabase: RoomDatabase() {
     abstract fun portfolioDao(): PortfolioDao

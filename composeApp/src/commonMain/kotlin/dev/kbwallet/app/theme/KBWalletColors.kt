@@ -6,8 +6,8 @@ import androidx.compose.ui.graphics.Color
 
 @Immutable
 data class KBLearningColorsPalette(
-    var profitGreen: Color = Color.Unspecified,
-    var lossRed: Color = Color.Unspecified,
+    val profitGreen: Color = Color.Unspecified,
+    val lossRed: Color = Color.Unspecified,
 )
 
 val ProfitGreenColor = Color(0xFF00FF00)

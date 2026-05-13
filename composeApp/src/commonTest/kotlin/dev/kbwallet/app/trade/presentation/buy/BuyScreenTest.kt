@@ -34,26 +34,28 @@ class BuyScreenTest {
                 state = state,
                 tradeType = TradeType.BUY,
                 onAmountChange = {},
-                onSubmitClicked = {}
+                onSubmitClicked = {},
+                onToggleMode = {},
             )
         }
 
-        onNodeWithText("Sell Now").assertDoesNotExist()
-        onNodeWithText("Buy Now").assertExists()
-        onNodeWithText("Buy Now").assertIsDisplayed()
+        onNodeWithText("Sell").assertDoesNotExist()
+        onNodeWithText("Buy").assertExists()
+        onNodeWithText("Buy").assertIsDisplayed()
 
         setContent {
             TradeScreen(
                 state = state,
                 tradeType = TradeType.SELL,
                 onAmountChange = {},
-                onSubmitClicked = {}
+                onSubmitClicked = {},
+                onToggleMode = {},
             )
         }
 
-        onNodeWithText("Buy Now").assertDoesNotExist()
-        onNodeWithText("Sell Now").assertExists()
-        onNodeWithText("Sell Now").assertIsDisplayed()
+        onNodeWithText("Buy").assertDoesNotExist()
+        onNodeWithText("Sell").assertExists()
+        onNodeWithText("Sell").assertIsDisplayed()
     }
 
     @OptIn(ExperimentalTestApi::class)
@@ -74,7 +76,8 @@ class BuyScreenTest {
                 state = state,
                 tradeType = TradeType.BUY,
                 onAmountChange = {},
-                onSubmitClicked = {}
+                onSubmitClicked = {},
+                onToggleMode = {},
             )
         }
 
@@ -101,7 +104,8 @@ class BuyScreenTest {
                 state = state,
                 tradeType = TradeType.BUY,
                 onAmountChange = {},
-                onSubmitClicked = {}
+                onSubmitClicked = {},
+                onToggleMode = {},
             )
         }
 

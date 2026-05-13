@@ -11,8 +11,8 @@ class GetCoinPriceHistoryUseCase(
     private val client: CoinsRemoteDataSource,
 ) {
 
-    suspend fun execute(coinId: String): Result<List<PriceModel>, DataError.Remote> {
-        return client.getPriceHistory(coinId).map { dto ->
+    suspend fun execute(coinId: String, timePeriod: String = "24h"): Result<List<PriceModel>, DataError.Remote> {
+        return client.getPriceHistory(coinId, timePeriod).map { dto ->
             dto.data.history.map { it.toPriceModel() }
         }
     }

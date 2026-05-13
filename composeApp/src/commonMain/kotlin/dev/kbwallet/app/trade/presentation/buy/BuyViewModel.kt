@@ -80,6 +80,37 @@ class BuyViewModel(
 
     fun onAmountChanged(amount: String) {
         _amount.value = amount
+        if (_state.value.isAmountInUnits && _state.value.coin != null) {
+            val num = amount.toDoubleOrNull()
+            _state.update {
+                it.copy(
+                    fiatEquivalent = if (num != null) "≈ ${formatFiat(num * it.coin!!.price)}"
+                    else ""
+                )
+            }
+        }
+    }
+
+    fun onToggleMode() {
+        val currentCoin = _state.value.coin ?: return
+        val currentAmount = _amount.value.toDoubleOrNull() ?: 0.0
+        _state.update { it.copy(isAmountInUnits = !it.isAmountInUnits, fiatEquivalent = "") }
+        // Clear amount when switching mode
+        _amount.value = ""
+        // Update available amount for the new mode
+        viewModelScope.launch {
+            val balance = portfolioRepository.cashBalanceFlow().first()
+            if (_state.value.isAmountInUnits) {
+                val maxUnits = if (currentCoin.price > 0) balance / currentCoin.price else 0.0
+                _state.update {
+                    it.copy(availableAmount = "Available: ${formatFiat(maxUnits, showDecimal = false)} ${currentCoin.symbol}")
+                }
+            } else {
+                _state.update {
+                    it.copy(availableAmount = "Available: ${formatFiat(balance)}")
+                }
+            }
+        }
     }
 
     fun onBuyClicked() {
@@ -89,9 +120,10 @@ class BuyViewModel(
             return
         }
         viewModelScope.launch {
+            val fiatAmount = if (_state.value.isAmountInUnits) amount * tradeCoin.price else amount
             val buyCoinResponse = buyCoinUseCase.buyCoin(
                 coin = tradeCoin.toCoin(),
-                amountInFiat = amount,
+                amountInFiat = fiatAmount,
                 price = tradeCoin.price,
             )
 

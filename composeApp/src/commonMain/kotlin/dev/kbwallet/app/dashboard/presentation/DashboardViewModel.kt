@@ -38,6 +38,10 @@ class DashboardViewModel(
                 when (result) {
                     is Result.Success -> {
                         val coins = result.data
+                        val totalFiat = coins.sumOf { it.ownedAmountInFiat }
+                        val weightedPerf = if (totalFiat > 0) {
+                            coins.sumOf { it.performancePercent * it.ownedAmountInFiat } / totalFiat
+                        } else 0.0
                         val summaryItems = coins.take(3).map { coin ->
                             DashboardCoinItem(
                                 id = coin.coin.id,
@@ -54,12 +58,26 @@ class DashboardViewModel(
                                 isLoading = false,
                                 coinCount = coins.size,
                                 portfolioSummaryCoins = summaryItems,
+                                recentPerformance = formatPercentage(weightedPerf),
+                                isPerformancePositive = weightedPerf >= 0,
                             )
                         }
                     }
                     is Result.Error -> {
                         _state.update { it.copy(isLoading = false) }
                     }
+                }
+            }
+        }
+
+        // ── Total balance (reactive) ──
+        viewModelScope.launch {
+            portfolioRepository.totalBalanceFlow().collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        _state.update { it.copy(portfolioValue = formatFiat(result.data)) }
+                    }
+                    is Result.Error -> { /* ignore */ }
                 }
             }
         }

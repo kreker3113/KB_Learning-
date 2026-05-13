@@ -104,7 +104,10 @@ private fun DashboardContent(
                     title = "24h Change",
                     value = state.recentPerformance,
                     modifier = Modifier.weight(1f),
-                    valueColor = MaterialTheme.colorScheme.primary,
+                    valueColor = if (state.isPerformancePositive)
+                        LocalKBLearningColorsPalette.current.profitGreen
+                    else
+                        LocalKBLearningColorsPalette.current.lossRed,
                 )
             }
         }
