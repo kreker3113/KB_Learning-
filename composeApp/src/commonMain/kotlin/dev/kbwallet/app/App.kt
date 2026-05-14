@@ -10,7 +10,6 @@ import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PieChart
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -49,7 +48,7 @@ import dev.kbwallet.app.core.navigation.Profile
 import dev.kbwallet.app.core.navigation.SecuritySettings
 import dev.kbwallet.app.core.navigation.Sell
 import dev.kbwallet.app.core.navigation.Simulator
-import dev.kbwallet.app.core.navigation.Watchlist
+
 import dev.kbwallet.app.dashboard.presentation.DashboardScreen
 import dev.kbwallet.app.history.presentation.HistoryScreen
 import dev.kbwallet.app.portfolio.presentation.PortfolioScreen
@@ -62,7 +61,7 @@ import dev.kbwallet.app.theme.KBLearningTheme
 import dev.kbwallet.app.trade.presentation.buy.BuyScreen
 import dev.kbwallet.app.trade.presentation.sell.SellScreen
 import dev.kbwallet.app.simulator.presentation.SimulatorScreen
-import dev.kbwallet.app.watchlist.presentation.WatchlistScreen
+
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 // ── Bottom navigation tab definition ──
@@ -72,7 +71,6 @@ private enum class BottomTab(
 ) {
     Dashboard(Icons.Default.Home, "Dashboard"),
     Portfolio(Icons.Default.PieChart, "Portfolio"),
-    Watchlist(Icons.Default.Star, "Watchlist"),
     History(Icons.Default.History, "History"),
     Profile(Icons.Default.Person, "Profile"),
 }
@@ -81,7 +79,6 @@ private enum class BottomTab(
 private val bottomBarRoutes = setOf(
     Dashboard::class,
     Portfolio::class,
-    Watchlist::class,
     History::class,
     Profile::class,
 )
@@ -110,9 +107,6 @@ fun App() {
                 MainScaffold(navController = navController)
             }
             composable<Portfolio> {
-                MainScaffold(navController = navController)
-            }
-            composable<Watchlist> {
                 MainScaffold(navController = navController)
             }
             composable<History> {
@@ -227,7 +221,6 @@ private fun MainScaffold(navController: NavHostController) {
                         val selected = when (tab) {
                             BottomTab.Dashboard -> currentDestination?.hasRoute(Dashboard::class) == true
                             BottomTab.Portfolio -> currentDestination?.hasRoute(Portfolio::class) == true
-                            BottomTab.Watchlist -> currentDestination?.hasRoute(Watchlist::class) == true
                             BottomTab.History -> currentDestination?.hasRoute(History::class) == true
                             BottomTab.Profile -> currentDestination?.hasRoute(Profile::class) == true
                         }
@@ -237,7 +230,6 @@ private fun MainScaffold(navController: NavHostController) {
                                 when (tab) {
                                     BottomTab.Dashboard -> innerNavController.navigate(Dashboard)
                                     BottomTab.Portfolio -> innerNavController.navigate(Portfolio)
-                                    BottomTab.Watchlist -> innerNavController.navigate(Watchlist)
                                     BottomTab.History -> innerNavController.navigate(History)
                                     BottomTab.Profile -> innerNavController.navigate(Profile)
                                 }
@@ -289,17 +281,6 @@ private fun MainScaffold(navController: NavHostController) {
                     },
                     onDiscoverCoinsClicked = {
                         navController.navigate(Coins)
-                    },
-                )
-            }
-            composable<Watchlist> {
-                WatchlistScreen(
-                    onBack = { innerNavController.navigate(Dashboard) },
-                    onCoinClicked = { coinId ->
-                        navController.navigate(Buy(coinId))
-                    },
-                    onChartRequested = { coinId, coinName ->
-                        navController.navigate(CryptoChart(coinId, coinName))
                     },
                 )
             }

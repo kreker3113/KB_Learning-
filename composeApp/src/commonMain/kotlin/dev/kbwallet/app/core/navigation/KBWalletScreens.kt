@@ -47,9 +47,6 @@ object HelpSupport
 
 // ── Trading Simulator additions ──
 @Serializable
-object Watchlist
-
-@Serializable
 object PnLAnalytics
 
 @Serializable

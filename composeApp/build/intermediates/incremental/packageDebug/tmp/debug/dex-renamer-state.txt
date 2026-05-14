@@ -1,4 +1,4 @@
-#Wed May 13 21:21:04 MSK 2026
+#Thu May 14 18:39:30 MSK 2026
 base.0=/home/aleksey/KB_Learning/composeApp/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
 base.1=/home/aleksey/KB_Learning/composeApp/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
 base.10=/home/aleksey/KB_Learning/composeApp/build/intermediates/dex/debug/mergeProjectDexDebug/4/classes.dex

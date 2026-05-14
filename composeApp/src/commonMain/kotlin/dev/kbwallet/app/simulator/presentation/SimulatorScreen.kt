@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,6 +39,8 @@ import dev.kbwallet.app.theme.DarkLossRedColor
 import dev.kbwallet.app.theme.DarkProfitGreenColor
 import dev.kbwallet.app.theme.LocalKBLearningColorsPalette
 import org.koin.compose.viewmodel.koinViewModel
+
+private val SubtextGray = Color(0xFFAAAAAA)
 
 @Composable
 fun SimulatorScreen(
@@ -89,16 +90,19 @@ fun SimulatorScreen(
             // ── Coin Selection ──
             if (state.selectedCoin == null) {
                 item { Text("Select a coin to simulate:", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold) }
-                item {
-                    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        items(state.availableCoins) { coin ->
-                            FilterChip(
-                                selected = false,
-                                onClick = { viewModel.selectCoin(coin) },
-                                label = { Text("${coin.symbol.uppercase()}") },
-                            )
-                        }
-                    }
+                items(state.availableCoins) { coin ->
+                    FilterChip(
+                        selected = false,
+                        onClick = { viewModel.selectCoin(coin) },
+                        label = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                AsyncImage(coin.iconUrl, null, contentScale = ContentScale.Fit, modifier = Modifier.size(20.dp).clip(CircleShape))
+                                Spacer(Modifier.width(6.dp))
+                                Text("${coin.name} (${coin.symbol.uppercase()})", fontSize = 13.sp)
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
                 }
             }
 
@@ -122,7 +126,7 @@ fun SimulatorScreen(
                                 )
                                 Text(
                                     "Candle ${state.currentCandleIndex + 1}/${state.candles.size}",
-                                    fontSize = 10.sp, color = Color.Gray,
+                                    fontSize = 10.sp, color = SubtextGray,
                                 )
                             }
                         }
@@ -131,30 +135,39 @@ fun SimulatorScreen(
 
                 // ── Playback Controls ──
                 item {
-                    Row(
+                    Column(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        IconButton(onClick = { viewModel.stepBackward() }) {
-                            Icon(Icons.Default.SkipPrevious, "Prev")
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            IconButton(onClick = { viewModel.stepBackward() }) {
+                                Icon(Icons.Default.SkipPrevious, "Prev")
+                            }
+                            IconButton(onClick = { viewModel.togglePlay() }) {
+                                Icon(
+                                    if (state.isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                                    if (state.isPlaying) "Pause" else "Play",
+                                )
+                            }
+                            IconButton(onClick = { viewModel.stepForward() }) {
+                                Icon(Icons.Default.SkipNext, "Next")
+                            }
                         }
-                        IconButton(onClick = { viewModel.togglePlay() }) {
-                            Icon(
-                                if (state.isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                                if (state.isPlaying) "Pause" else "Play",
-                            )
-                        }
-                        IconButton(onClick = { viewModel.stepForward() }) {
-                            Icon(Icons.Default.SkipNext, "Next")
-                        }
-                        Spacer(Modifier.width(12.dp))
-                        PlaySpeed.entries.forEach { speed ->
-                            FilterChip(
-                                selected = state.playSpeed == speed,
-                                onClick = { viewModel.setPlaySpeed(speed) },
-                                label = { Text(speed.label, fontSize = 10.sp) },
-                            )
+                        Spacer(Modifier.height(4.dp))
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            PlaySpeed.entries.forEach { speed ->
+                                FilterChip(
+                                    selected = state.playSpeed == speed,
+                                    onClick = { viewModel.setPlaySpeed(speed) },
+                                    label = { Text(speed.label, fontSize = 10.sp) },
+                                )
+                            }
                         }
                     }
                 }
@@ -226,7 +239,7 @@ fun SimulatorScreen(
                             Spacer(Modifier.height(8.dp))
                             // Amount
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text("Amount: $", modifier = Modifier.width(70.dp), color = Color.Gray, fontSize = 13.sp)
+                                Text("Amount: $", modifier = Modifier.width(70.dp), color = SubtextGray, fontSize = 13.sp)
                                 BasicTextField(
                                     value = state.orderAmount,
                                     onValueChange = { viewModel.onOrderAmountChanged(it) },
@@ -240,7 +253,7 @@ fun SimulatorScreen(
                             }
                             // Leverage
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text("Leverage:", modifier = Modifier.width(70.dp), color = Color.Gray, fontSize = 13.sp)
+                                Text("Leverage:", modifier = Modifier.width(70.dp), color = SubtextGray, fontSize = 13.sp)
                                 BasicTextField(
                                     value = state.orderLeverage,
                                     onValueChange = { viewModel.onOrderLeverageChanged(it) },
@@ -373,13 +386,13 @@ private fun PositionCard(pos: SimPosition, onClose: () -> Unit) {
                     style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold,
                 )
                 Spacer(Modifier.weight(1f))
-                Text("$${pos.amountInFiat.toInt()}", fontSize = 13.sp, color = Color.Gray)
+                Text("$${pos.amountInFiat.toInt()}", fontSize = 13.sp, color = SubtextGray)
             }
             Spacer(Modifier.height(4.dp))
             Row {
-                Text("Entry: $$pos.entryPrice", fontSize = 12.sp, color = Color.Gray)
+                Text("Entry: $$pos.entryPrice", fontSize = 12.sp, color = SubtextGray)
                 Spacer(Modifier.width(12.dp))
-                Text("Now: $$pos.currentPrice", fontSize = 12.sp, color = Color.Gray)
+                Text("Now: $$pos.currentPrice", fontSize = 12.sp, color = SubtextGray)
                 Spacer(Modifier.weight(1f))
                 Text("P&L: ${"%.0f".format(pos.pnl)} (${"%.1f".format(pos.pnlPercent)}%)",
                     fontSize = 13.sp, fontWeight = FontWeight.Bold, color = pnlColor)
@@ -421,12 +434,12 @@ private fun ClosedTradeCard(trade: ClosedTrade) {
             Spacer(Modifier.width(8.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text("${trade.side.name} ${trade.coinName}", fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
-                Text("Entry: $$trade.entryPrice → Exit: $$trade.exitPrice", fontSize = 11.sp, color = Color.Gray)
+                Text("Entry: $$trade.entryPrice → Exit: $$trade.exitPrice", fontSize = 11.sp, color = SubtextGray)
             }
             Column(horizontalAlignment = Alignment.End) {
                 Text("${"%.0f".format(trade.pnl)} (${"%.1f".format(trade.pnlPercent)}%)",
                     fontSize = 13.sp, fontWeight = FontWeight.Bold, color = pnlColor)
-                Text(trade.exitReason.name, fontSize = 10.sp, color = Color.Gray)
+                Text(trade.exitReason.name, fontSize = 10.sp, color = SubtextGray)
             }
         }
     }
@@ -436,7 +449,7 @@ private fun ClosedTradeCard(trade: ClosedTrade) {
 private fun SimStatCard(title: String, value: String, modifier: Modifier = Modifier, valueColor: Color = MaterialTheme.colorScheme.onBackground) {
     Box(modifier = modifier.background(MaterialTheme.colorScheme.surface, RoundedCornerShape(12.dp)).padding(12.dp)) {
         Column {
-            Text(title, fontSize = 11.sp, color = Color.Gray)
+            Text(title, fontSize = 11.sp, color = SubtextGray)
             Text(value, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = valueColor)
         }
     }
@@ -446,7 +459,7 @@ private fun SimStatCard(title: String, value: String, modifier: Modifier = Modif
 private fun MetricCard(title: String, value: String, modifier: Modifier = Modifier, valueColor: Color = MaterialTheme.colorScheme.onBackground) {
     Box(modifier = modifier.background(MaterialTheme.colorScheme.surface, RoundedCornerShape(10.dp)).padding(10.dp)) {
         Column {
-            Text(title, fontSize = 10.sp, color = Color.Gray)
+            Text(title, fontSize = 10.sp, color = SubtextGray)
             Text(value, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = valueColor, fontFamily = FontFamily.Monospace)
         }
     }

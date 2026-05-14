@@ -50,6 +50,8 @@ import dev.kbwallet.app.portfolio.presentation.component.DonutChart
 import dev.kbwallet.app.theme.LocalKBLearningColorsPalette
 import org.koin.compose.viewmodel.koinViewModel
 
+private val SubtextGray = Color(0xFFAAAAAA)
+
 @Composable
 fun PortfolioScreen(
     onCoinItemClicked: (String) -> Unit,
@@ -129,7 +131,7 @@ private fun PortfolioContent(
                 ) {
                     Text(
                         text = "Your Portfolio Balance",
-                        color = Color.Gray,
+                        color = SubtextGray,
                         fontSize = 13.sp,
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -174,7 +176,7 @@ private fun PortfolioContent(
                     focusedBorderColor = MaterialTheme.colorScheme.primary,
                     unfocusedBorderColor = MaterialTheme.colorScheme.outline,
                     focusedLabelColor = MaterialTheme.colorScheme.primary,
-                    unfocusedLabelColor = Color.Gray,
+                    unfocusedLabelColor = SubtextGray,
                     cursorColor = MaterialTheme.colorScheme.primary,
                 ),
             )
@@ -204,7 +206,7 @@ private fun PortfolioContent(
                     Text(
                         text = "Nothing to show yet. Add some coins!",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Gray,
+                        color = SubtextGray,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth(),
                     )
@@ -213,12 +215,18 @@ private fun PortfolioContent(
                         // Donut Chart
                         val chartValues = state.coins.map { it.amountInFiat.toFloat() }
                         val chartColors = listOf(
-                            Color(0xFF00FF00),
-                            Color(0xFF00CC00),
-                            Color(0xFF009900),
-                            Color(0xFF006600),
-                            Color(0xFF00E600),
-                            Color(0xFF00B300),
+                            Color(0xFF00E676), // bright green
+                            Color(0xFF69F0AE), // light mint
+                            Color(0xFF00C853), // emerald
+                            Color(0xFFB2FF59), // lime
+                            Color(0xFF1DE9B6), // teal-green
+                            Color(0xFF76FF03), // acid green
+                            Color(0xFF00BFA5), // turquoise-green
+                            Color(0xFF64DD17), // leaf green
+                            Color(0xFFAEEA00), // yellow-green
+                            Color(0xFF009688), // dark teal
+                            Color(0xFF2E7D32), // forest green
+                            Color(0xFF81C784), // soft sage
                         )
                         DonutChart(
                             values = chartValues,
@@ -288,7 +296,7 @@ private fun PortfolioContent(
                 Text(
                     text = "${filteredCoins.size} coins",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray,
+                    color = SubtextGray,
                 )
             }
         }
@@ -298,7 +306,7 @@ private fun PortfolioContent(
                 Text(
                     text = "No coins match your search",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray,
+                    color = SubtextGray,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -361,7 +369,7 @@ private fun CoinListItem(
             Text(
                 text = coin.symbol.uppercase(),
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.Gray,
+                color = SubtextGray,
             )
         }
         Column(horizontalAlignment = Alignment.End) {
@@ -408,7 +416,7 @@ private fun PortfolioEmptySection(
             Text(
                 text = "Start by discovering coins to trade",
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray,
+                color = SubtextGray,
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
