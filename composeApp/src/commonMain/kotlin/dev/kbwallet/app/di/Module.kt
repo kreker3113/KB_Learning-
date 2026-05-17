@@ -60,9 +60,6 @@ val sharedModule = module {
     single { TokenStorage() }
     single { SecureTokenStorage() }
 
-    // currency
-    single { dev.kbwallet.app.core.domain.currency.CurrencyManager() }
-
     // trade
     singleOf(::BuyCoinUseCase)
     singleOf(::SellCoinUseCase)
@@ -113,5 +110,5 @@ val sharedModule = module {
     single { MarketSimulator(get(), get(), get(), get()) }
 
     // trading simulator
-    viewModel { SimulatorViewModel(get(), get()) }
+    viewModel { SimulatorViewModel(get()) }
 }
