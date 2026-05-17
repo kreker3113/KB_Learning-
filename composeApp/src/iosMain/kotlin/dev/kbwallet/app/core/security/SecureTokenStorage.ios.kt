@@ -19,9 +19,7 @@ actual class SecureTokenStorage {
         store[key]
     }
 
-    actual suspend fun remove(key: String) = mutex.withLock {
-        store.remove(key)
-    }
+    actual suspend fun remove(key: String) { mutex.withLock { store.remove(key) } }
 
     actual suspend fun clear() = mutex.withLock {
         store.clear()
