@@ -1,0 +1,84 @@
+package dev.kbwallet.server.plugins
+
+import dev.kbwallet.server.data.UserRepository
+import dev.kbwallet.server.security.PasswordHasher
+import dev.kbwallet.server.security.TokenConfig
+import dev.kbwallet.server.security.TokenService
+import com.auth0.jwt.algorithms.Algorithm
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
+import io.ktor.server.plugins.cors.routing.*
+
+fun Application.configureSecurity() {
+    val jwtSecret = environment.config.property("jwt.secret").getString()
+    val jwtIssuer = environment.config.property("jwt.issuer").getString()
+    val jwtAudience = environment.config.property("jwt.audience").getString()
+    val accessTokenExpirationMs = environment.config.property("jwt.accessTokenExpirationMs").getString().toLong()
+    val refreshTokenExpirationMs = environment.config.property("jwt.refreshTokenExpirationMs").getString().toLong()
+
+    val tokenConfig = TokenConfig(
+        secret = jwtSecret,
+        issuer = jwtIssuer,
+        audience = jwtAudience,
+        accessTokenExpirationMs = accessTokenExpirationMs,
+        refreshTokenExpirationMs = refreshTokenExpirationMs
+    )
+
+    val tokenService = TokenService(tokenConfig)
+
+    // Store in application attributes for DI
+    environment.attributes.put(TokenServiceKey, tokenService)
+
+    install(Authentication) {
+        jwt("auth-jwt") {
+            realm = "KB Wallet API"
+            verifier(
+                JWT.require(Algorithm.HMAC256(tokenConfig.secret))
+                    .withIssuer(tokenConfig.issuer)
+                    .withAudience(tokenConfig.audience)
+                    .withSubject("access")
+                    .build()
+            )
+            validate { credential ->
+                if (credential.payload.getClaim("userId").asString() != null) {
+                    JWTPrincipal(credential.payload)
+                } else {
+                    null
+                }
+            }
+        }
+    }
+
+    install(CORS) {
+        anyHost()
+        allowHeader("Authorization")
+        allowHeader("Content-Type")
+        allowCredentials = true
+        allowMethod(io.ktor.http.HttpMethod.Post)
+        allowMethod(io.ktor.http.HttpMethod.Get)
+        allowMethod(io.ktor.http.HttpMethod.Put)
+        allowMethod(io.ktor.http.HttpMethod.Delete)
+    }
+}
+
+fun Application.configureDependencies() {
+    val iterations = environment.config.property("password.iterations").getString().toInt()
+    val keyLength = environment.config.property("password.keyLength").getString().toInt()
+
+    environment.attributes.put(UserRepositoryKey, UserRepository())
+    environment.attributes.put(PasswordHasherKey, PasswordHasher(iterations, keyLength))
+}
+
+val TokenServiceKey = AttributeKey<TokenService>("TokenService")
+val UserRepositoryKey = AttributeKey<UserRepository>("UserRepository")
+val PasswordHasherKey = AttributeKey<PasswordHasher>("PasswordHasher")
+
+fun ApplicationCall.getTokenService(): TokenService =
+    application.attributes[TokenServiceKey]
+
+fun ApplicationCall.getUserRepository(): UserRepository =
+    application.attributes[UserRepositoryKey]
+
+fun ApplicationCall.getPasswordHasher(): PasswordHasher =
+    application.attributes[PasswordHasherKey]

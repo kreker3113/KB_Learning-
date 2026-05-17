@@ -8,6 +8,9 @@ import dev.kbwallet.app.coins.domain.GetCoinsListUseCase
 import dev.kbwallet.app.coins.domain.api.CoinsRemoteDataSource
 import dev.kbwallet.app.coins.presentation.CoinsListViewModel
 import dev.kbwallet.app.core.network.HttpClientFactory
+import dev.kbwallet.app.core.network.auth.AuthApiClient
+import dev.kbwallet.app.core.security.TokenStorage
+import dev.kbwallet.app.core.security.SecureTokenStorage
 import io.ktor.client.HttpClient
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
@@ -51,6 +54,11 @@ val sharedModule = module {
 
     // core
     single<HttpClient> { HttpClientFactory.create(get()) }
+
+    // auth & security
+    single { AuthApiClient(get()) }
+    single { TokenStorage() }
+    single { SecureTokenStorage() }
 
     // trade
     singleOf(::BuyCoinUseCase)

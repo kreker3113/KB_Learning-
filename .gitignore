@@ -1,0 +1,81 @@
+# ── IDE & Editors ──
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.swp
+*.swo
+*~
+
+# ── Gradle ──
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+local.properties
+
+# ── Kotlin ──
+.kotlin/
+*.class
+*.kt.semanticdb
+
+# ── Android ──
+.android/
+*.apk
+*.aab
+*.ap_
+*.dex
+*.hprof
+proguard/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# ── iOS ──
+iosApp/*.xcworkspace
+iosApp/Pods/
+iosApp/DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# ── Server ──
+server/build/
+server/.gradle/
+server/out/
+
+# ── OS & Filesystem ──
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.log
+*.tmp
+*.temp
+
+# ── Environment & Secrets ──
+.env
+.env.*
+*.local
+*.secret
+secrets.properties
+Token.txt
+*.keystore
+*.jks
+*.p12
+*.pkcs12
+.android/debug.keystore
+.android/debug.keystore.lock
+
+# ── Java ──
+*.class
+target/
+
+# ── Misc ──
+*.orig
+*.bak
+*.patch
