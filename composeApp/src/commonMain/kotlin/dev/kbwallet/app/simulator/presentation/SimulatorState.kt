@@ -1,8 +1,11 @@
 package dev.kbwallet.app.simulator.presentation
 
+import dev.kbwallet.app.chart.domain.indicator.BollingerResult
+import dev.kbwallet.app.chart.domain.indicator.MacdResult
 import dev.kbwallet.app.chart.domain.model.CandleModel
 import dev.kbwallet.app.chart.domain.model.TimeRange
 import dev.kbwallet.app.core.domain.coin.Coin
+import dev.kbwallet.app.core.domain.currency.Currency
 import dev.kbwallet.app.simulator.domain.ClosedTrade
 import dev.kbwallet.app.simulator.domain.SimPosition
 import dev.kbwallet.app.simulator.domain.SimulatorMetrics
@@ -23,8 +26,8 @@ data class SimulatorState(
     // ── User portfolio (simulator balance) ──
     val initialBalance: Double = 10000.0,
     val cashBalance: Double = 10000.0,
-    val equity: Double = 10000.0,          // cash + unrealized P&L
-    val balanceHistory: List<Double> = emptyList(), // equity at each candle
+    val equity: Double = 10000.0,
+    val balanceHistory: List<Double> = emptyList(),
 
     // ── Positions ──
     val positions: List<SimPosition> = emptyList(),
@@ -42,11 +45,31 @@ data class SimulatorState(
     // ── Metrics ──
     val metrics: SimulatorMetrics = SimulatorMetrics(),
 
+    // ── Indicator toggles ──
+    val showVolume: Boolean = true,
+    val showSma: Boolean = true,
+    val showEma: Boolean = false,
+    val showBollinger: Boolean = false,
+    val showRsi: Boolean = false,
+    val showMacd: Boolean = false,
+
+    // ── Indicator data (calculated from candles) ──
+    val sma20: List<Double> = emptyList(),
+    val sma50: List<Double> = emptyList(),
+    val ema12: List<Double> = emptyList(),
+    val ema26: List<Double> = emptyList(),
+    val bollinger: BollingerResult? = null,
+    val rsiValues: List<Double> = emptyList(),
+    val macd: MacdResult? = null,
+
+    // ── Currency ──
+    val displayCurrency: Currency = Currency.USD,
+
     // ── UI state ──
     val isLoading: Boolean = true,
     val error: String? = null,
     val activeHint: String? = null,
-    val showHeatmap: Boolean = false,
+    val showCurrencyDialog: Boolean = false,
 )
 
 enum class PlaySpeed(val label: String, val delayMs: Long) {
